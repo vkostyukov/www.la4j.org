@@ -19,7 +19,11 @@
       line-height: 20px;
     }
     small {
-      font-size: 14px;
+      font-size: 13px;
+    }
+    pre.prettyprint {
+      margin-top: 8px;
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -38,7 +42,7 @@
           <br />
           <blockquote>
             <p>
-              I use <strong>la4j</strong>, because the other libraries, damn them, much confused - 300 classes and each of them has a funny name.
+              I use <strong>la4j</strong>, because the other libraries, damn it, much confused - 300 classes and each of them have a funny name.
             </p>
             <small>
               Happy Java developer <a href="http://www.java-forum.org/members/28454.html">Degush</a> from German
@@ -69,29 +73,56 @@
       <br />
       <h2> Overview </h2>
       <p>
-        The <strong>la4j</strong> - is single threaded, open source and 100% Java library witch oriented to solve main problems of <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a>. There are key features of la4j, listed bellow:
+        The <strong>la4j</strong> - is single threaded, open source and pure Java library witch oriented to solve main problems of <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a>. There are key features of la4j, listed bellow:
       </p> 
       <ul>
-        <li>minimalism (60kb jar)</li>
-        <li>uniform interpretation of vectors and matrices</li>
-        <li>sparse (CSR, CSC) and dense (1d, 2d arrays) matrices and vectors support</li>
+        <li>no dependencies and tiny size (~60kb jar)</li>
+        <li>minimalistic and full object-oriented API</li>
+        <li>sparse (CSR, CSC) and dense (1d/2d arrays) matrices</li>
         <li>linear systems solving (Gaussian, Jacobi, Zeidel, Square Root, Sweep and other)</li>
         <li>matrices decomposition (Eigenvalues, SVD, QR, LU, Cholesky and other)</li>
-        <li>inverted matrices foundation</li>
-        <li>serialization for matrices and vectors</li>
-        <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/CSV output format</li>
+        <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/CSV input/output formats support for matrices and vectors</li>
       </ul>
       <br />
       <h2> Samples </h2>
       <div class="row">
-        <div class="span4">
+        <div class="span6">
+          <h4>Factories</h4>
           <pre class="prettyprint linenums">
-import java.lang.Object;
-  public static Main() {
-  int a;
-}
-        </pre>
-      </div>
+Factory basic2d = new Basic2DFactory();
+Factory csr = new CSRFactory();
+
+double array[][] = new double[][] { 
+    {1.0, 0.0, 0.0}, 
+    {0.0, 5.0, 0.0}, 
+    {0.0, 0.0, 9.0} 
+};
+
+Matrix a = basic2d.createMatrix(array);
+Matrix b = csr.createMatrix(array);
+
+// convert dense 2D-array to sparse CSR matrix
+Matrix c = a.copy(csr);
+
+// convert sparse CSR to dense 2D-array matrix
+Matrix d = b.copy(basic2d); </pre>
+          <span class="label label-info">Tip</span> <small>Don't use factories everywhere. Try public constructors!</small>
+        </div>
+        <div class="span6">
+          <h4>Basic operations</h4>
+          <pre class="prettyprint linenums">
+Matrix a = new CSCMatrix(array);
+Matrix b = new Basic1DMatrix(array);
+
+// c - is a sparse CSC matrix
+Matrix c = a.multiply(b);
+
+// d - is dense 1d-array matrix
+Matrix d = a.multiply(b, new Basic1DFactory()); 
+
+// e = c + d - a * 100
+Matrix e = c.add(d).subtract(a).multiply(100);</pre>
+        </div>
       </div>
       <br />
       <h2> Contributions </h2>
