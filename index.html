@@ -107,6 +107,62 @@ Matrix c = a.copy(csr);
 // convert sparse CSR to dense 2D-array matrix
 Matrix d = b.copy(basic2d); </pre>
           <span class="label label-info">Tip</span> <small>Don't use factories everywhere. Try public constructors!</small>
+          <br /> <br />
+          <h4>Rows and Columns</h4>
+          <pre class="prettyprint linenums">
+Matrix a = new CSRMatrix(array);
+
+int rows = a.rows();
+int columns = a.columns();
+
+// changes number of columns/rows
+a.setColumns(columns + 1); 
+a.setRows(rows + 1);
+
+// resizes the matrix
+a.resize(rows + 1, columns + 1);
+
+// swaps columns/rows
+a.swapColumns(0, columns - 1);
+a.swapRows(0, rows - 1);
+
+// row - is a sparse compressed vector
+Vector row = a.getRow(0); 
+
+// column - is a sparse compressed vector
+Vector column = a.getColumn(0);</pre>
+        <br />
+        <h4> Matrix inversion </h4>
+        <pre class="prettyprint linenums">
+Matrix a = new Basic2DMatrix(array);
+
+// b - is a dense 2D-array matrix
+Matrix b = a.inverse(new GaussianInvertor());
+
+// c - is a sparse CSC matrix
+Matrix c = a.inverse(
+    new GaussianInvertor(), 
+    new CSCFactory()
+);</pre>
+        <br />
+        <h4>Input/Output</h4>
+        <pre class="prettyprint linenums">
+Matrix a = new Basic2DMatrix(array);
+
+// MatrixMarket format privider
+ObjectOutput mmos = new MMOutputStream(
+    new FileOutputStream("file.mm")
+);
+mmos.writeObject(a);
+mmos.close();
+
+ObjectInput mmis = new MMInputStream(
+    new FileInputStream("file.mm")
+);
+
+// b - is a dense 2D-array matrix
+Matrix b = (Matrix) mmis.readObject();
+mis.close();</pre>
         </div>
         <div class="span6">
           <h4>Basic operations</h4>
@@ -122,6 +178,58 @@ Matrix d = a.multiply(b, new Basic1DFactory());
 
 // e = c + d - a * 100
 Matrix e = c.add(d).subtract(a).multiply(100);</pre>
+        <br />
+        <h4>Specific operations</h4>
+        <pre class="prettyprint linenums">
+Matrix a = new CSCMatrix(array);
+Matrix b = new Basic2DMatrix(array);
+
+// calculates the trace of matrix
+double trace = a.trace();
+
+// calculates the product of matrix
+double product = a.product();
+
+// c - is a sparse CSC matrix
+Matrix c = a.transpose();
+
+// d - is a dense 1D-array Matrix
+Matrix d = b.transpose(new Basic1DFactory());
+
+// e - is a triangle sparse CSC matrix
+Matrix e = a.triangularize();
+
+// f - is a triangle dense 2D-array matrix
+Matrix f = a.triangularize(new Bascic2DFactory());</pre>
+        <br />
+        <h4>Solving linear systems</h4>
+        <pre class="prettyprint linenums">
+Matrix a = new CSRMatrix(array);
+Vector b = new BasicVector(array[0]);
+
+LinearSystem system = new LinearSystem(a, b);
+
+// x - is a sparse compressed vector
+Vector x = system.solve(new GaussianSolver()); 
+
+// y - is a dense basic vector
+Vector y = system.solve(
+    new SquareRootSolver(), 
+    new Basic1DFactory()
+);</pre>
+        <br />
+        <h4>Matrix decomposition</h4>
+<pre class="prettyprint linenums">
+Matrix a = new Basic1DMatrix(array);
+
+// qr[0] = Q, qr[1] = R; Q,R - dense 1D-array matrices
+Matrix[] qr = a.decompose(new QRDecompositor());
+
+// lu[0] = L, lu[1] = U; L,U - sparse CSR matrices
+Matrix[] lu = a.decompose(
+    new LUDecompositor(), 
+    new CSRFactory()
+);</pre>
         </div>
       </div>
       <br />
