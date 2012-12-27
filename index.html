@@ -102,27 +102,30 @@
       <h2> Samples </h2>
           <h4>Factories</h4>
           <pre class="prettyprint linenums">
-Matrix a = new CRSMatrix(new double[][] { 
-  {1.0, 0.0, 0.0}, 
-  {0.0, 5.0, 0.0}, 
-  {0.0, 0.0, 9.0} 
+Factory basic2d = new Basic2DFactory();
+Factory crs = new CRSFactory();
+
+// a - is 3x3 dense 2D-array matrix
+Matrix a = basic2d.createMatrix(new double[][] { 
+    {1.0, 0.0, 0.0}, 
+    {0.0, 5.0, 0.0}, 
+    {0.0, 0.0, 9.0} 
 });
 
-int rows = a.rows();
-int columns = a.columns();
+// b - is 3x4 sparse CRS matrix
+Matrix b = crs.createMatrix(3, 4);
 
-// resizes the matrix
-a.resize(rows + 1, columns + 1);
+// c - is 5x5 random dense 2D-array matrix
+Matrix c = basic2d.createRandomMatrix(5, 5);
 
-// swaps columns/rows
-a.swapColumns(0, columns - 1);
-a.swapRows(0, rows - 1);
+// d - is 10x10 identity dense 2D-array matrix
+Matrix d = basic2d.createIdentityMatrix(10);
 
-// row - is a sparse compressed vector
-Vector row = a.getRow(0); 
+// convert dense 2D-array to sparse CRS matrix
+Matrix e = a.copy(crs);
 
-// column - is a dense basic vector
-Vector column = a.getColumn(0, Matrices.BASIC1D_FACTORY);</pre>
+// convert sparse CSR to dense 2D-array matrix
+Matrix f = b.copy(basic2d);</pre>
           <div class="alert alert-info"><small><strong>Tip!</strong> Don't use factories everywhere. Try public constructors!</small></div>
           <h4>Rows and Columns</h4>
           <pre class="prettyprint linenums">
