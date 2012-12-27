@@ -63,7 +63,6 @@
           <ul class="unstyled">
             <li> <strong>la4j</strong> <a href="https://github.com/vkostyukov/la4j">@ GitHub</a> </li>
             <li> <strong>la4j</strong> <a href="http://la4j.blogspot.com">@ Blogger</a> </li>
-            <li> <strong>la4j</strong> <a href="https://www.ohloh.net/p/la4j"> @ Ohloh</a> </li>
           </ul>
           <div class="g-plusone" data-size="tall"></div>
           <script type="text/javascript">
@@ -250,13 +249,13 @@ public class ConsoleMatrixSources implements MatrixSource {
 // a - is sparse CRS matrix got from stdin 
 Matrix a = new CRSMatrix(new ConsoleMatrixSources());
 
-// b - is random dense 1D-array matrix
-Matrix b = new Basic1DMatrix(new RandomMatrixSource(10, 10));
+// b - is 5x10 random dense 1D-array matrix
+Matrix b = new Basic1DMatrix(new RandomMatrixSource(5, 10));
 
-// c - is identity dense 2D-array matrix
+// c - is 10x10 identity dense 2D-array matrix
 Matrix c = new Basic2DMatrix(new IdentityMattixSource(10));
 
-// d - is random symmetric CCS matrix
+// d - is 10x10 random symmetric CCS matrix
 Matrix d = new CCSMatrix(new RandomSymmetricMatrixSource(10));</pre>
         <br />
         <h4> Matrix inversion </h4>
@@ -313,19 +312,19 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
       <p>
         The <a href="https://github.com/vkostyukov/la4j">la4j project</a> is maintained at <a href="https://github.com">GitHub</a>, where you can:
         <ul>
+          <li> <strong>Fork and send pull-request</strong></li>
           <li> <strong>Browse the source code</strong> using the <a href="https://github.com/vkostyukov/la4j/tree/master/src">Source Browser</a></li> 
           <li> <strong>Submit a bug/feature</strong> using the <a href="https://github.com/vkostyukov/la4j/issues">Issues List</a></li>
         </ul>
       </p>
       <p>
-        Please, feel free to send <a href="mailto:vladimir.kostukov@gmail.com">author</a> any patches and feedbacks with label <i>"la4j"</i>.
+        The last but not least way to contribute - drop a feedback to the author (<a href="https://twitter.com/vkostyukov">@vkostyukov</a>).
       </p>
       <br />
       <h2> References </h2>
       <ul>
         <li> <a href="https://github.com/vkostyukov/la4j">https://github.com/vkostyukov/la4j</a> - GitHub page </li>
         <li> <a href="http://la4j.blogspot.com">http://la4j.blogspot.com</a> - Development Blog </li>
-        <li> <a href="https://www.ohloh.net/p/la4j">https://www.ohloh.net/p/la4j</a> - Ohloh Page </li>
       </ul>
       <hr />
       <footer>
