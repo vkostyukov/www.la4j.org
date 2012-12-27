@@ -93,10 +93,10 @@
       <ul>
         <li>no dependencies and tiny size (~100kb jar)</li>
         <li>minimalistic and full object-oriented API</li>
-        <li>sparse (CSR, CSC) and dense (1D/2D arrays) matrices</li>
+        <li>sparse (<a href="http://netlib.org/linalg/html_templates/node91.html#SECTION00931100000000000000">CRS</a>, <a href="http://netlib.org/linalg/html_templates/node92.html#SECTION00931200000000000000">CCS</a>) and dense (1D/2D arrays) matrices</li>
         <li>linear systems solving (Gaussian, Jacobi, Zeidel, Square Root, Sweep and other)</li>
         <li>matrices decomposition (Eigenvalues, SVD, QR, LU, Cholesky and other)</li>
-        <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/CSV input/output formats support for matrices and vectors</li>
+        <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/<a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> IO formats support for matrices and vectors</li>
       </ul>
       <br />
       <h2> Samples </h2>
@@ -175,13 +175,13 @@ double product = a.product();
 // calculates the determinant of matrix
 double determinant = a.determinant();
 
-// c - is a sparse CSC matrix
+// c - is a sparse CCS matrix
 Matrix c = a.transpose();
 
 // d - is a dense 1D-array matrix
 Matrix d = a.transpose(Matrices.BASIC1D_FACTORY);
 
-// e - is a triangle sparse CSC matrix
+// e - is a triangle sparse CCS matrix
 Matrix e = a.triangularize();
 
 // f - is a triangle dense 2D-array matrix
@@ -334,7 +334,7 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
         <div class="row">
           <div class="span5">
             <ul class="unstyled">
-              <li>&copy; <a href="http://vkostyukov.ru">Vladimir Kostyukov</a>, 2011-2012</li>
+              <li>&copy; <a href="http://vkostyukov.ru">Vladimir Kostyukov</a>, 2011-2013</li>
               <li>Powered by <a href="http://twitter.github.com/bootstrap/">Twitter's Bootstrap</a></li>
             </ul>
           </div>
