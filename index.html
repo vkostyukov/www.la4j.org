@@ -49,7 +49,7 @@
           <br />
           <blockquote>
             <p>
-              I use <strong>la4j</strong>, because the other libraries, damn it, much confused - 300 classes and each of them has a funny name.
+              I use <strong>la4j</strong>, because the other libraries, damn it, much confused - 300 classes and each of them has <a href=""></a> funny name.
             </p>
             <small>
               Happy Java developer <a href="http://www.java-forum.org/members/28454.html">Degush</a> from German
@@ -88,7 +88,7 @@
       <br />
       <h2> Overview </h2>
       <p>
-        The <strong>la4j</strong> - is single threaded, open source and pure Java library witch oriented to solve main problems of <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a>. There are key features of la4j, listed bellow:
+        The <strong>la4j</strong> - is single threaded, open source and pure Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives and algorithms. There are key features of la4j, listed bellow:
       </p> 
       <ul>
         <li>no dependencies and tiny size (~100kb jar)</li>
@@ -229,7 +229,7 @@ boolean isIdentity = a.is(new MatrixPredicate() {
         <br />
         <h4>Sources</h4>
         <pre class="prettyprint linenums">
-public class ConsoleMatrixSources implements MatrixSource {
+public class ConsoleMatrixSource implements MatrixSource {
   @Override
   public int rows() {
     System.out.print("Enter matrix rows: ");
@@ -250,7 +250,7 @@ public class ConsoleMatrixSources implements MatrixSource {
 }
 
 // a - is sparse CRS matrix got from stdin 
-Matrix a = new CRSMatrix(new ConsoleMatrixSources());
+Matrix a = new CRSMatrix(new ConsoleMatrixSource());
 
 // b - is 5x10 random dense 1D-array matrix
 Matrix b = new Basic1DMatrix(new RandomMatrixSource(5, 10));
