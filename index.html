@@ -33,7 +33,7 @@
       line-height: 20px;
     }
     small {
-      font-size: 13px;
+      font-size: 12px;
     }
     pre.prettyprint {
       margin-top: 8px;
@@ -43,33 +43,41 @@
     footer {
       font-size: 13px;
     }
+    blockquote.p {
+      font-size: 10px;
+    }
   </style>
 </head>
 <body onload="prettyPrint()">
 <a href="https://github.com/vkostyukov/la4j"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>  <div class="container">
     <div class="content">
       <div class="row">
-        <div class="span2">
-          <img src="assets/img/la4j.png" />
-        </div>
-        <div class="span5">
+        <div class="span7">
           <h1> Linear Algebra for Java </h1>
           <p>
             Open Source and <strong>100%</strong> Java sparse/dense matrix library.
           </p>
-          <br />
           <blockquote>
-            <p>
-              I use <strong>la4j</strong>, because the other libraries, damn it, much confused - 300 classes and each of them has <a href=""></a> funny name.
+            <p style="font-size: 13px; line-height: 16px;">
+              I've read through parts of <strong>la4j</strong> library. It's very well designed - not too much object poetry (though there's a bit of a factory proliferation), some good defaults, and so far - I'm using the sparse matrix and vector classes - performance is good.
             </p>
             <small>
-              Happy Java developer <a href="http://www.java-forum.org/members/28454.html">Degush</a> from German
+              John Stewart, <a href="http://www.amplify.com/">Amplify, Inc</a>, New York, USA
             </small>
           </blockquote>
-        </div>
+          <blockquote>
+            <p style="font-size: 13px; line-height: 16px;">
+              I found <strong>la4j-0.4.0</strong> has a lot of changes compared to the previous version. And I am glad that the AbstractMatrix has included a lot new functionalities like Kronecker product and slice operations. What a wonderful job!
+            </p>
+            <small>
+              Xiaorui Jiang, <a href="http://www.zju.edu.cn/english/">Zhejiang University of Technology</a>, Zhejiang, China
+            </small>
+          </blockquote>
+          </div>
         <div class="span3" style="text-align:right;">
+          <img src="assets/img/la4j.png" />
           <p> 
-            <a class="btn btn-success btn-large" href="https://la4j.googlecode.com/files/la4j-0.3.0.zip"><strong>Download</strong> la4j-0.3.0.zip</a> 
+            <a class="btn btn-success btn-large" href="https://la4j.googlecode.com/files/la4j-0.3.0.zip"><strong>Download</strong> la4j-0.4.0.zip</a> 
           </p>
           <ul class="unstyled">
             <li> <strong>la4j</strong> <a href="https://github.com/vkostyukov/la4j">@ GitHub</a> </li>
@@ -94,7 +102,7 @@
 &lt;dependency>
   &lt;groupId&gt;org.la4j&lt;/groupId&gt;
   &lt;artifactId&gt;la4j&lt;/artifactId&gt;
-  &lt;version&gt;0.3.0&lt;/version&gt;
+  &lt;version&gt;0.4.0&lt;/version&gt;
 &lt;/dependency&gt;</pre> 
       </p>
       <br />
@@ -103,35 +111,37 @@
         The <strong>la4j</strong> - is single threaded, open source and pure Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives and algorithms. There are key features of la4j, listed bellow:
       </p> 
       <ul>
-        <li>no dependencies and tiny size (~100kb jar)</li>
-        <li>minimalistic and full object-oriented API</li>
-        <li>sparse (<a href="http://netlib.org/linalg/html_templates/node91.html#SECTION00931100000000000000">CRS</a>, <a href="http://netlib.org/linalg/html_templates/node92.html#SECTION00931200000000000000">CCS</a>) and dense (1D/2D arrays) matrices</li>
-        <li>linear systems solving (Gaussian, Jacobi, Zeidel, Square Root, Sweep and other)</li>
-        <li>matrices decomposition (Eigenvalues, SVD, QR, LU, Cholesky and other)</li>
+        <li>No dependencies and tiny size (~130kb jar)</li>
+        <li>Simple and object-oriented/functional API</li>
+        <li>Sparse (<a href="http://netlib.org/linalg/html_templates/node91.html#SECTION00931100000000000000">CRS</a>, <a href="http://netlib.org/linalg/html_templates/node92.html#SECTION00931200000000000000">CCS</a>) and dense (1D/2D arrays) matrices</li>
+        <li>Linear systems solving (Gaussian, Jacobi, Zeidel, Square Root, Sweep and other)</li>
+        <li>Matrices decomposition (Eigenvalues, SVD, QR, LU, Cholesky and other)</li>
         <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/<a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> IO formats support for matrices and vectors</li>
       </ul>
       <br />
       <h2> Samples </h2>
-          <h4>Factories</h4>
+          <h4>Factories and matrices</h4>
           <pre class="prettyprint linenums">
-Factory basic2d = new Basic2DFactory();
-Factory crs = new CRSFactory();
+Factory basic1d = new Basic1DFactory(); // creates Basic1DMatrix instances
+Factory basic2d = new Basic2DFactory(); // creates Basic2DMatrix instances
+Factory crs = new CRSFactory();         // creates CRSMatrix instances
+Factory ccs = new CCSFactory();         // creates CCSMatrix instances
 
-// a - is 3x3 dense 2D-array matrix
-Matrix a = basic2d.createMatrix(new double[][] { 
+// a - is 3x3 dense matrix that uses 1d array as internal representaion
+Matrix a = basic1d.createMatrix(new double[][] { 
     {1.0, 0.0, 0.0}, 
     {0.0, 5.0, 0.0}, 
     {0.0, 0.0, 9.0} 
 });
 
-// b - is 3x4 sparse CRS matrix
-Matrix b = crs.createMatrix(3, 4);
+// b - is 3x4 dense matrix that uses 1d array as internal representation
+Matrix b = basic2d.createMatrix(3, 4);
 
-// c - is 5x5 random dense 2D-array matrix
-Matrix c = basic2d.createRandomMatrix(5, 5);
+// c - is 5x5 random sparse CRS matrix
+Matrix c = crs.createRandomMatrix(5, 5);
 
-// d - is 10x10 identity dense 2D-array matrix
-Matrix d = basic2d.createIdentityMatrix(10);
+// d - is 10x10 identity sparse CCS matrix
+Matrix d = ccs.createIdentityMatrix(10);
 
 // convert dense 2D-array to sparse CRS matrix
 Matrix e = a.copy(crs);
@@ -355,7 +365,7 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
           <div class="span5" style="text-align:right;">
             <ul class="unstyled">
               <li>Created <code>26-Jul-2012</code></li>
-              <li>Updated <code>15-Apr-2013</code></li>
+              <li>Updated <code>31-May-2013</code></li>
             </ul>
           </div>
         </div>
