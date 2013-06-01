@@ -218,7 +218,7 @@ Vector o = crs.createVector();</pre>
             </ul>
           </p>
           <h4>Safe and Unsafe entries</h4>
-          Entries in la4j might be <code>safe</code> and <code>unsafe</code>. Matrices and vectors in la4j are <code>unsafe</code> by default. Unsafe entries don't perfrom bound checks before operations, while safe ones do.
+          Entries in la4j might be <code>safe</code> and <code>unsafe</code>. Matrices and vectors in la4j are <code>unsafe</code> by default. Unsafe entries don't perfrom bound checks before accessors, while safe ones do.
           <pre class="prettyprint linenums">
 // 'a' is unsafe dense 2D-Array matrix
 Matrix a = new Basic2DMatrix(...);
@@ -239,100 +239,249 @@ Vector e = c.safe();
 Vector f = e.unsafe():</pre>
           <br />
           <h4>Rows and Columns</h4>
+          <p>
+            Matrices in la4j support access to their rows and columns via vectors.
+          </p>
           <pre class="prettyprint linenums">
+// 'a' is sparse CRS matrix
 Matrix a = new CRSMatrix(...);
 
-// rows/columns accessors
+// numbers of rows and columns in matrix 'a'
 int rows = a.rows();
 int columns = a.columns();
 
-// b - is 
-Matrix b = a.resize(rows + 1, columns + 1);
-
-// c - is 
-Matrix c = a.resizeRows(rows + 1);
-
-// d - 
-Matrix d = a.resizeColumns(columns + 1);
-
-// swaps columns/rows
+// swaps columns in matrix 'a'
 a.swapColumns(0, columns - 1);
+
+// swaps rows in matrix 'a'
 a.swapRows(0, rows - 1);
 
-// row - is a sparse compressed vector
-Vector row = a.getRow(0); 
+// 'r' is sparse compressed vector
+Vector r = a.getRow(0); 
 
-// column - is a dense basic vector
-Vector column = a.getColumn(0, Vector.BASIC_FACTORY);
+// 'c' is dense basic vector
+Vector c = a.getColumn(0, Vector.BASIC_FACTORY);
 
-// sets 1st matrix row to given vector
-a.setRow(1, row);
+// sets matrix row to given vector
+a.setRow(1, r);
 
-//sets 1st matrix column to given vector
-a.setColumn(1);</pre>
+// sets matrix column to given vector
+a.setColumn(1, c);</pre>
         <br />
-          <h4>Resizing and Copying</h4>
+        <h4>Copying</h4>
           <pre class="prettyprint linenums">
 Matrix a = new CRSMatrix(...);
 
-// b - is 
+// copies matrix 'a' to matrix 'b'
+// result matrix 'b' is produced by Matrices.CRS_FACTORY
+Matrix b = a.copy();
+
+// copies matrix 'a' to matrix 'c'
+// result matrix 'c' is produced by Matrices.BASIC2D_FACTORY
+Matrix c = a.copy(Matrices.BASIC2D_FACTORY);
+
+// crates a blank copy (copy without values) of matrix 'a'
+// result matrix 'd' is produced by Matrices.BASIC1D_FACTORY
+Matrix d = a.blank(Matrices.BASIC1D_FACTORY)
+
+// 'h' is dense basic vector
+Vector e = BasicVector(...);
+
+// copies vector 'e' to vector 'f'
+// result vector 'f' is produced by Vectors.BASIC_FACTORY
+Vector f = e.copy();
+
+// copies vector 'e' to vector 'g'
+// result vector 'm' is produced by Vectors.COMPRESSED_FACTORY
+Vector g = e.copy(Vectors.COMPRESSED_FACTORY);
+
+// creates a blank copy (copy without values) of vector 'e'
+// result vector 'h' is produced by Vectors.BASIC_FACTORY
+Vector h = e.blank();</pre>
+        <br />
+          <h4>Resizing and Slicing</h4>
+          <p>
+            Entries in la4j are immutable in terms of dimmensions. It means that resizing can't be done in-place.
+          </p>
+          <pre class="prettyprint linenums">
+Matrix a = new CRSMatrix(...);
+
+// rows and columns of matrix 'a'
+int rows = a.rows();
+int columns = a.columns();
+
+// resizes matrix 'a' to given size
+// result matrix 'b' is produced by Matrices.CRS_FACTORY
 Matrix b = a.resize(rows + 1, columns + 1);
 
-// c - is 
-Matrix c = a.resizeRows(rows + 1);
+// resizes matrix 'a' to given size
+// result matrix 'c' is produced by Matrices.CCS_FACTORY
+Matrix c = a.resize(rows - 1, columns - 1, Matrices.CCS_FACTORY);
 
-// d - 
-Matrix d = a.resizeColumns(columns + 1);
+// equivalent to 'resize(rows + 1, columns)'
+Matrix d = a.resizeRows(rows + 1);
 
-Matrix e = a.copy();
+// equivalent to 'resize(rows, columns + 1)'
+Matrix e = a.resizeColumns(columns + 1);
 
-Matrix e = a.copy(Fac);</pre>
+// slices matrix 'a'
+// signature of slice is (fromRow, fromColumn, untilRow, untilColumn)
+// result matrix 'f' is produced by Matrices.CRS_FACTORY
+Matrix f = a.slice(1, 1, rows - 1, columns - 1);
+
+// slices matrix 'a'
+// equivalent to slice(0, 0, rows - 1, columns - 1);
+Matrix g = a.sliceTopLeft(rows - 1, columns - 1);
+
+// slices matrix 'a'
+// equivalent to slice(1, 1, rows, columns);
+Matrix h = a.sliceBottomRight(1, 1);
+
+Vector j = BasicVector(...);
+
+// length of vector 'j'
+int length = j.length();
+
+// resizes vector 'j' to new size
+// fesult vector 'k' is produced by Vectors.BASIC_FACTORY
+Vector k = j.resize(length + 1);
+
+// resizes vector 'j' to new size
+// fesult vector 'l' is produced Vectors.COMPRESSED_FACTORY
+Vector l = j.resize(length - 1, Vectors.COMPRESSED_FACTORY);
+
+// slices vector 'j'
+// signature of slice is (from, until)
+// fesult vector 'm' is produced by Vectors.BASIC_FACTORY
+Vector m = j.slice(1, length - 1);
+
+// slices vector 'j'
+// equivalent to slice(0, length - 1)
+Vector n = j.sliceLeft(length - 1);
+
+// slices vector 'j'
+// equivalent to slice(1, length)
+Vector o = j.sliceRight(1);</pre>
         <br />
         <h4>Basic operations</h4>
         <pre class="prettyprint linenums">
-Matrix a = new CCSMatrix(...);
-Matrix b = new Basic1DMatrix(...);
+Matrix a = Basic2DMatrix(...);
 
-// c - is a sparse CCS matrix
-Matrix c = a.multiply(b);
+// assigns each element of matrix 'a' to 42.0
+a.assign(42.0);
 
-// d - is dense 1D-array matrix
-Matrix d = a.multiply(b, Matrices.BASIC1D_FACTORY); 
+Matrix b = new CCSMatrix(...);
+Matrix c = new Basic1DMatrix(...);
 
-// e = c + d - a * 100
-Matrix e = c.add(d).subtract(a).multiply(100);</pre>
+// multiplies matrix 'b' by matrix 'c'
+// result matrix 'd' is produced by Matrices.CCS_FACTORY
+Matrix d = b.multiply(c);
+
+// multiplies matrix 'b' by matrix 'c'
+// result matrix 'e' is produced by Matrices.BASIC1D_FACTORY
+Matrix e = a.multiply(b, Matrices.BASIC1D_FACTORY); 
+
+// adds matrix 'c' to matrix 'b'
+// result matrix 'f' is produced by Matrices.CCS_FACTORY
+Matrix f = b.add(c);
+
+// subtructs matrix 'c' from matrix 'b'
+// result matrix 'g' is produced by Matrices.BASIC2D_FACTORY
+Matrix g = b.subtruct(c, Matrices.BASIC2D_FACTORY);
+
+// scales matrix 'b' by value 42.0
+// result matrix 'h' is produced by Matrices.CCS_FACTORY
+Matrix h = b.multiply(42.0);
+
+// scales matrix 'b' by vaule 1/42.0
+// result matrix 'i' is produced by Matrices.BASIC1D_FACTORY
+Matrix i = b.divide(42.0, Matrices.BASIC1D_FACTORY);
+
+// adds 42.0 to each element of matrix 'b'
+// result matrix 'k' is produced by Matrices.CCS_FACTORY
+Matrix k = b.add(42.0);
+
+// subtructs 42.0 from each element of matrix 'b'
+// result matrix 'l' is produced by Matrices.CRS_FACTORY
+Matrix l = b.subtruct(42.0);
+
+// calculates Kronecker product of two matrices 'b' and 'c'
+// result matrix 'm' is produced by Matrices.CRS_FACTORY
+Matrix m = b.kronecker(c);
+
+Vector n = new BasicVector(...);
+
+// assigns each element of vector 'n' to 42.0
+n.assign(42.0);
+
+// multiplies matrix 'b' by vector
+// result vector 'o is produced by Vectors.COMPRESSED_FACTORY
+Vector o = b.multiply(n, Vectors.COMPRESSED_FACTORY);
+
+// multiplies vector 'n' by matrix 'b'
+// result vector 'p' is produced by Vectors.BASIC_FACTORY
+Vector p = n.multiply(b);</pre>
         <br />
         <h4>Specific operations</h4>
         <pre class="prettyprint linenums">
 Matrix a = new CCSMatrix(...);
 Matrix b = new Basic2DMatrix(...);
+Vector c = new BasicVector(...);
 
 // calculates the trace of matrix
-double trace = a.trace();
+double t = a.trace();
 
 // calculates the product of matrix
-double product = a.product();
+double p = a.product();
 
 // calculates the determinant of matrix
-double determinant = a.determinant();
+double d = a.determinant();
 
-// c - is a sparse CCS matrix
-Matrix c = a.transpose();
+// transposes matrix 'a'
+// result matrix 'e' is produced by Matrices.CCS_FACTORY
+Matrix e = a.transpose();
 
-// d - is a dense 1D-array matrix
-Matrix d = a.transpose(Matrices.BASIC1D_FACTORY);
+// transposes matrix 'a'
+// result matrix 'f' is produced by Matrices.BASIC1D_FACTORY
+Matrix f = a.transpose(Matrices.BASIC1D_FACTORY);
 
-// e - is a triangle sparse CCS matrix
-Matrix e = a.triangularize();
+// converts matrix 'a' into tridiagonal matrix
+// result matrix 'g' is produced by Matrices.CCS_FACTORY
+Matrix g = a.triangularize();
 
-// f - is a triangle dense 2D-array matrix
-Matrix f = a.triangularize(Matrices.BASIC2D_FACTORY);</pre>
+// converts matrix 'a' into tridiagonal matrix
+// result matrix 'h' is produced by Matrices.BASIC1D_FACTORY
+Matrix h = a.triangularize(Matrices.BASIC1D_FACTORY);
+
+// calculates L_1 norm of vector 'c'
+double n = c.norm();
+
+// normalizes vector 'c'
+// result vector 'j' is produced by Vectors.COMPRESSED_VECTOR
+Vector j = c.normalize(Vectors.COMPRESSED_VECTOR);</pre>
         <br />
         <h4>Functors</h4>
+        <p>
+          The la4j supports four types of functors which are used in hi-order methods. Matrices support the followig set of hi-order methods:
+          <ul>
+            <li><code>Matrix.each(...)</code> applies procedure to each element of matrix</li>
+            <li><code>Matrix.transform(...)</code> transforms matrix by applying function to each element of matrix</li>
+            <li><code>Matrix.update(...)</code> updates matrix (in-place transform)</li> 
+            <li><code>Matrix.is(...)</code> checks whether each element of matrix corresponds to predicate</li> 
+            <li><code>Matrix.fold(...)</code> reduces elements of matrix to single alue by using accumulator function</li> 
+          </ul>
+          , and following set of functors:
+          <ul>
+            <li><code>org.la4j.matrix.functor.MatrixProcedure</code></li>
+            <li><code>org.la4j.matrix.functor.MatrixFunction</code></li>
+            <li><code>org.la4j.matrix.functor.MatrixPredicate</code></li>
+            <li><code>org.la4j.matrix.functor.MatrixAccumulator</code></li>
+          </ul>
+        </p>
         <pre class="prettyprint linenums">
 Matrix a = new CCSMatrix(...);
 
-// prints each element of matrix a to stdout
+// prints each element of matrix 'a' to stdout
 a.each(new MatrixProcedure() {
   @Override
   public void apply(int i, int j, double value) {
@@ -340,12 +489,10 @@ a.each(new MatrixProcedure() {
   }
 });
 
-// increases each element of matrix a by 1
-// b - is sparse CCS matrix
+// increases each element of matrix 'a' by 1
 Matrix b = a.transform(Matrices.INC_MATRIX);
 
 // makes a diagonal matrix 
-// c - is dense 2D-array matrix
 Matrix c = a.transform(new MatrixFunction() {
   @Override
   public double evaluate(int i, int j, double value) {
@@ -353,10 +500,43 @@ Matrix c = a.transform(new MatrixFunction() {
   }
 }, Matrices.BASIC2D_FACTORY);
 
-// returns 'true' if matrix a is symmetric matrix
+// calculates the sum of elements of matrix 'a'
+double s = a.fold(Matrices.asSumAccumulator(0.0));
+
+// calculates the product of elements of matrix 'a'
+double p = a.fold(Matrices.asProductAccumulator(1.0));
+
+// calculates the sum of '1' row
+double s1 = a.foldRow(1, Matrices.asSumAccumulator(0)); 
+// calculates the sum of '2' 
+double s2 = a.foldColumn(2, Matrices.asSumAccumulator(0));
+
+// the helper class that fetches border elements of matrix
+class PerimeterFetcher implements MatrixFunction {
+
+  private int rows;
+  private int columns;
+
+  public PerimeterFectcher(int rows, int columns) {
+    this.rows = rows;
+    this.columns = columns;
+  }      
+
+  @Override
+  public double evaluate(int i, int j, double value) {
+    return i == 0 ? value : j == 0 ? value : (i + 1) == rows ? value
+           : (j + 1) == columns ? value : 0;
+  }
+}
+
+// calculates the perimeter of matrix
+double p = a.fold(Matrices.asSumFunctionAccumulator(0, 
+                  new PerimeterFetcher(a.rows(), a.columns()))); 
+
+// returns 'true' if matrix 'a' is symmetric matrix
 boolean isSymmetric = a.is(Matrices.SYMMETRIC_MATRIX);
 
-// returns 'true' if matrix a is tridiagonal matrix
+// returns 'true' if matrix 'a' is tridiagonal matrix
 boolean isTridiagonal = a.is(Matrices.TRIDIAGONAL_MATRIX);
 
 // returns 'true' if matrix a is identity matrix
@@ -403,16 +583,38 @@ Matrix c = new Basic2DMatrix(new IdentityMattixSource(10));
 Matrix d = new CCSMatrix(new RandomSymmetricMatrixSource(10));</pre>
         <br />
         <h4> Matrix inversion </h4>
+        <p>
+          There is only one inversion algorithm that is supported by la4j - <code>org.la4j.inversion.GaussianInvertor</code>. This invertor uses <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian Elimination</a> as core method for finding inverted matrix and can be touched via static field <code>Matrices.GAUSSIAN_INVERTOR</code> of <code>org.la4j.matrix.Matrices</code> class.
+        </p>
         <pre class="prettyprint linenums">
 Matrix a = new Basic2DMatrix(...);
 
-// b - is a dense 2D-array matrix
+// 'b' is a dense 2D-array matrix
+// DEFAULT_INVERTOR is alias for GAUSSIAN_INVERTOR
 Matrix b = a.inverse(Matrices.DEFAULT_INVERTOR);
 
-// c - is a sparse CCS matrix
+// 'c' is a sparse CCS matrix
 Matrix c = a.inverse(Matrices.DEFAULT_INVERTOR, Matrices.CCS_FACTORY);</pre>
         <br />
         <h4>Solving linear systems</h4>
+        <p>
+          Following solvers are supported by la4j:
+          <ul>
+            <li><code>org.la4j.linear.GaussianSolver</code> implements <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian Elimination</a></li>
+            <li><code>org.la4j.linear.JacobiSolver</code> implements <a href="http://en.wikipedia.org/wiki/Jacobi_method">Jacobi method</a></li>
+            <li><code>org.la4j.linear.SeidelSolver</code> implements <a href="http://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method">Gauss-Seidel method</a></li>
+            <li><code>org.la4j.linear.SquareRootSolver</code> implements Square Roots method</li>
+            <li><code>org.la4j.linear.SweepSolver</code> implements <a href="http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiagonal Matrix algorithm</a></li>
+          </ul>
+          , which can be accessed via predefined static fields of <code>org.la4j.matrix.Matrices</code>:
+          <ul>
+            <li><code>Matrices.GAUSSIAN_SOLVER</code></li>
+            <li><code>Matrices.JACOBI_SOLVER</code></li>
+            <li><code>Matrices.SEIDEL_SOLVER</code></li>
+            <li><code>Matrices.SQUARE_ROOT_SOLVER</code></li>
+            <li><code>Matrices.SWEEP_SOLVER</code></li>
+          </ul>
+        </p>
         <pre class="prettyprint linenums">
 Matrix a = new CRSMatrix(...);
 Vector b = new BasicVector(...);
@@ -420,14 +622,32 @@ Vector b = new BasicVector(...);
 LinearSystem system = Matrices.asLinearSystem(a, b);
 
 // solves the linear system with the most efficient solver
-// x - is a sparse compressed vector
+// 'x' is a sparse compressed vector
 Vector x = system.solve(); 
 
 // solves the linear system with specified solver
-// y - is a dense basic vector
+// 'y' is a dense basic vector
 Vector y = system.solve(Matrices.GAUSSIAN_SOLVER, Matrices.BASIC2D_FACTORY);</pre>
         <br />
         <h4>Matrix decomposition</h4>
+        <p>
+          The la4j supports following decompositions: 
+          <ul>
+            <li><code>org.la4j.decomposition.CholeskyDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Cholesky decomposition</a></li>
+            <li><code>org.la4j.decomposition.EigenDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Eigen decomposition</a></li>
+            <li><code>org.la4j.decomposition.LUDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/LU_decomposition">LU decomposition</a></li>
+            <li><code>org.la4j.decomposition.QRDecomposition</code> implements <a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition</a></li>
+            <li><code>org.la4j.decomposition.SingularValueDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a></li>
+          </ul>
+          , which can be used via predefined singleton instances in class <code>org.la4j.matrix.Matrices</code>:
+          <ul>
+            <li><code>Matrices.CHOLESKY_DECOMPOSITOR</code></li>
+            <li><code>Matrices.EIGEN_DECOMPOSITOR</code></li>
+            <li><code>Matrices.LU_DECOMPOSITOR</code></li>
+            <li><code>Matrices.QR_DECOMPOSITOR</code></li>
+            <li><code>Matrices.SINGULAR_VALUE_DECOMPOSITOR</code></li>
+          </ul>
+        </p>
         <pre class="prettyprint linenums">
 Matrix a = new Basic1DMatrix(...);
 
@@ -440,17 +660,25 @@ Matrix[] lu = a.decompose(Matrices.LU_DECOMPOSITOR, Matrices.CRS_FACTORY);
 // usv[0] = U, usv[1] = S, usv[2] = V; U, S, V - dense 1D-array matrices
 Matrix[] usv = a.decompose(Matrices.SINGULAR_VALUE_DECOMPOSITOR);</pre>
         <h4>Input/Output</h4>
+        <p>
+          The la4j supports two IO formats: 
+          <ul>
+            <li><code>org.la4j.io.MatrixMarketStream</code> implements MatrixMarket format</li>
+            <li><code>org.la4j.io.SymbolSeparatedStream</code> implements CSS, TSS, etc.</li>
+          </ul>
+        </p>
         <pre class="prettyprint linenums">
 Matrix a = new Basic2DMatrix(...);
 
 // MatrixMarket format provider
-// there is also SymbolSeparatedStream for CSV/TSV
+// writing matrix 'a' to file 
 MatrixStream out = new MatrixMarketStream(new FileOutputStream("file.mm"));
 out.writeMatrix(a);
 
-// b - is sparse CRS matrix
+// reading matrix from file
 MatrixStream in = new MatrixMarketStream(new FileInputStream("file.mm"));
-Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
+Matrix b = in.readMatrix(Matrices.CRS_FACTORY);
+</pre>
       <br />
       <h2> Contributions </h2>
       <p>
@@ -484,7 +712,7 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
           <div class="span5" style="text-align:right;">
             <ul class="unstyled">
               <li>Created <code>26-Jul-2012</code></li>
-              <li>Updated <code>31-May-2013</code></li>
+              <li>Updated <code>1-Jun-2013</code></li>
             </ul>
           </div>
         </div>
