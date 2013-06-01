@@ -77,14 +77,14 @@
         <div class="span3" style="text-align:right;">
           <img src="assets/img/la4j.png" />
           <p> 
-            <a class="btn btn-success btn-large" href="https://la4j.googlecode.com/files/la4j-0.3.0.zip"><strong>Download</strong> la4j-0.4.0.zip</a> 
+            <a class="btn btn-success btn-large" href="downloads/la4j-0.4.0.zip"><strong>Download</strong> la4j-0.4.0.zip</a> 
           </p>
           <ul class="unstyled">
             <li> <strong>la4j</strong> <a href="https://github.com/vkostyukov/la4j">@ GitHub</a> </li>
             <li> <strong>la4j</strong> <a href="http://la4j.blogspot.com">@ Blogger</a> </li>
             <li> <strong>la4j</strong> <a href="https://groups.google.com/forum/?fromgroups=#!forum/la4j">@ Google Groups</a> </li>
           </ul>
-          <div class="g-plusone" data-size="tall"></div>
+          <div class="g-plusone" data-size="standart"></div>
           <script type="text/javascript">
             (function() {
               var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -97,7 +97,7 @@
       <hr />
       <h2> Download </h2>
       <p>
-        There are two ways to get the latest version of la4j: download zipped archive from <a href="https://code.google.com/p/la4j/downloads/list">Google Code Downloads</a> or add new dependency to your Maven's <code>pom.xml</code>.
+        The <strong>la4j</strong> might be simply downloaded by clicking big green button at the top of this page or by updating Maven's <code>pom.xml</code>.
 <pre class="prettyprint">
 &lt;dependency>
   &lt;groupId&gt;org.la4j&lt;/groupId&gt;
@@ -108,7 +108,7 @@
       <br />
       <h2> Overview </h2>
       <p>
-        The <strong>la4j</strong> - is single threaded, open source and pure Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives and algorithms. There are key features of la4j, listed bellow:
+        The <strong>la4j</strong> is single threaded, open source and pure Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives and algorithms. The key features of la4j listed bellow:
       </p> 
       <ul>
         <li>No dependencies and tiny size (~130kb jar)</li>
@@ -119,45 +119,141 @@
         <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/<a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> IO formats support for matrices and vectors</li>
       </ul>
       <br />
-      <h2> Samples </h2>
-          <h4>Factories and matrices</h4>
+      <h2> Samples and Notes</h2>
+      <hr />
+          <h4>Factories and Entries</h4>
+          <p>
+          There are four matrix classes in la4j which are used for handling dense and sparse matrices:
+          <ul>
+          <li><code>org.la4j.matrix.dense.Basic1DMatrix</code> uses 1D double array as internal representation</li>
+          <li><code>org.la4j.matrix.dense.Basic2DMatrix</code> uses 2D double array as internal representation</li>
+          <li><code>org.la4j.matrix.sparse.CRSMatrix</code> uses CRS - Compressed Row Storage format</li>
+          <li><code>org.la4j.matrix.sparse.CCSMatrix</code> uses CCS - Compressed Colummn Storage format</li>
+          </ul>
+          </p>
+          <p>
+          The la4j also supports vectors as separate entries. There are two types of vectors which also represent dense and sparse storages:
+          <ul>
+            <li><code>org.la4j.vector.dense.BasicVector</code> uses 1D double array as internal representation</li>
+            <li><code>org.la4j.vector.sparse.CompressedVector</code> uses compressed array as internal representation</li>
+          </ul> 
+          </p>
+          <p>
+          The cornerstown of la4j is its factories. Factories are used everywhere for producing new matrices and vectors. The following factories are supported:
+          <ul>
+            <li><code>org.la4j.factory.Basic1DFactory</code> produces <code>Basic1DMatrix</code> and <code>BasicVector</code></li>
+            <li><code>org.la4j.factory.Basic2DFactory</code> produces <code>Basic2DMatrix</code> and <code>BasicVector</code></li>
+            <li><code>org.la4j.factory.CRSFactory</code> produces <code>CRSMatrix</code> and <code>CompressedVector</code></li>
+            <li><code>org.la4j.factory.CCSFactory</code> produces <code>CCSMatrix</code> and <code>CompressedVector</code></li>
+          </ul>
+          </p>
           <pre class="prettyprint linenums">
-Factory basic1d = new Basic1DFactory(); // creates Basic1DMatrix instances
-Factory basic2d = new Basic2DFactory(); // creates Basic2DMatrix instances
-Factory crs = new CRSFactory();         // creates CRSMatrix instances
-Factory ccs = new CCSFactory();         // creates CCSMatrix instances
+Factory basic1d = new Basic1DFactory();
+Factory basic2d = new Basic2DFactory();
+Factory crs = new CRSFactory();
+Factory ccs = new CCSFactory();
 
-// a - is 3x3 dense matrix that uses 1d array as internal representaion
+// 'a' is 3x3 dense 1D-Array matrix
 Matrix a = basic1d.createMatrix(new double[][] { 
     {1.0, 0.0, 0.0}, 
     {0.0, 5.0, 0.0}, 
     {0.0, 0.0, 9.0} 
 });
 
-// b - is 3x4 dense matrix that uses 1d array as internal representation
+// 'b' is 3x4 dense 2D-Array matrix
 Matrix b = basic2d.createMatrix(3, 4);
 
-// c - is 5x5 random sparse CRS matrix
-Matrix c = crs.createRandomMatrix(5, 5);
+// 'c' is 5x5 sparse CRS matrix that is copied from matrix 'a'
+Matrix c = crs.createMatrix(a);
 
-// d - is 10x10 identity sparse CCS matrix
-Matrix d = ccs.createIdentityMatrix(10);
+// 'd' is 10x10 constant sparse CCS matrix
+Matrix d = ccs.createConstantMatrix(10, 10, 42.0);
 
-// convert dense 2D-array to sparse CRS matrix
-Matrix e = a.copy(crs);
+// 'e' is 7x3 random dense 1D-Array matrix
+Matrix e = basic1d.createRandomMatrix(7, 3);
 
-// convert sparse CSR to dense 2D-array matrix
-Matrix f = b.copy(basic2d);</pre>
+// 'f' is 9x9 random symmetric dense 2D-Array matrix
+Matrix f = basic2d.createRandomSymmetricMatrix(9);
+
+// 'g' is 8x8 square sparse CRS matrix 
+Matrix g = crs.createSquareMatrix(8);
+
+// 'h' is 4x4 identity sparse CCS matrix
+Matrix h = ccs.createIdentityMatrix(4);
+
+// 'i' is empty dense 1D-Array matrix
+Matrix i = basic1d.createMatrix();
+
+// 'j' is dense vector that handles 3 elements
+Vector j = basic1d.createVector(new dobule[]{ 1.0, 2.0, 3.0 });
+
+// 'k' is sparse vector that handles 4 elements
+Vector k = crs.createVector(4);
+
+// 'l' is dense vector that is copied from vector 'j'
+Vector l = basic2d.createVector(j);
+
+// 'm' is constant sparse vector that handles 6 elements
+Vector m = ccs.createConstantVector(6, 42.0);
+
+// 'n' is random dense vector that handles 7 elements
+Vector n = basic1d.createRandomVector(7);
+
+// 'o' is empty sparse vector
+Vector o = crs.createVector();</pre>
           <div class="alert alert-info"><small><strong>Tip!</strong> Don't use factories everywhere. Try public constructors!</small></div>
+          <p>
+            The la4j provides predefined factories instances which might be accessed via special static classes. There are two major static classes in la4j:
+            <code>org.la4j.matrix.Matrices</code> and <code>org.la4j.vector.Vectors</code>. These classes handle loads of usefull defaults for matrices and vectors. Here is the list of predifined static factories for matrices:
+            <ul>
+              <li><code>org.la4j.matrix.Matrices.BASIC1D_FACTORY</code></li>
+              <li><code>org.la4j.matrix.Matrices.BASIC2D_FACTORY</code></li>
+              <li><code>org.la4j.matrix.Matrices.CRS_FACTORY</code></li>
+              <li><code>org.la4j.matrix.Matrices.CCS_FACTORY</code></li>
+            </ul>
+            , and for vectors:
+            <ul>
+              <li><code>org.la4j.vector.Vectors.BASIC_FACTORY</code></li>
+              <li><code>org.la4j.vector.Vectors.COMPRESSED_FACTORY</code></li>
+            </ul>
+          </p>
+          <h4>Safe and Unsafe entries</h4>
+          Entries in la4j might be <code>safe</code> and <code>unsafe</code>. Matrices and vectors in la4j are <code>unsafe</code> by default. Unsafe entries don't perfrom bound checks before operations, while safe ones do.
+          <pre class="prettyprint linenums">
+// 'a' is unsafe dense 2D-Array matrix
+Matrix a = new Basic2DMatrix(...);
+
+// 'b' is safe dense 2D-array matrix
+Matrix b = a.safe();
+
+// 'c' is equal to 'a'
+Matrix c = b.unsafe();
+
+// 'd' is unsafe sparse vector
+Vector d = new CompressedVector(...);
+
+// 'e' is safe sparse vector
+Vector e = c.safe();
+
+// 'f' is equal to 'd'
+Vector f = e.unsafe():</pre>
+          <br />
           <h4>Rows and Columns</h4>
           <pre class="prettyprint linenums">
 Matrix a = new CRSMatrix(...);
 
+// rows/columns accessors
 int rows = a.rows();
 int columns = a.columns();
 
-// resizes the matrix
-a.resize(rows + 1, columns + 1);
+// b - is 
+Matrix b = a.resize(rows + 1, columns + 1);
+
+// c - is 
+Matrix c = a.resizeRows(rows + 1);
+
+// d - 
+Matrix d = a.resizeColumns(columns + 1);
 
 // swaps columns/rows
 a.swapColumns(0, columns - 1);
@@ -167,7 +263,30 @@ a.swapRows(0, rows - 1);
 Vector row = a.getRow(0); 
 
 // column - is a dense basic vector
-Vector column = a.getColumn(0, Matrices.BASIC1D_FACTORY);</pre>
+Vector column = a.getColumn(0, Vector.BASIC_FACTORY);
+
+// sets 1st matrix row to given vector
+a.setRow(1, row);
+
+//sets 1st matrix column to given vector
+a.setColumn(1);</pre>
+        <br />
+          <h4>Resizing and Copying</h4>
+          <pre class="prettyprint linenums">
+Matrix a = new CRSMatrix(...);
+
+// b - is 
+Matrix b = a.resize(rows + 1, columns + 1);
+
+// c - is 
+Matrix c = a.resizeRows(rows + 1);
+
+// d - 
+Matrix d = a.resizeColumns(columns + 1);
+
+Matrix e = a.copy();
+
+Matrix e = a.copy(Fac);</pre>
         <br />
         <h4>Basic operations</h4>
         <pre class="prettyprint linenums">
@@ -344,7 +463,7 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);</pre>
         </ul>
       </p>
       <p>
-        The last but not least way to contribute - drop a feedback to the author (<a href="https://twitter.com/vkostyukov">@vkostyukov</a>).
+        The last but not least way to contribute - drop a feedback to the author <a href="https://twitter.com/vkostyukov">@vkostyukov</a>.
       </p>
       <br />
       <h2> References </h2>
