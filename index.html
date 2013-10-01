@@ -46,6 +46,9 @@
     blockquote.p {
       font-size: 10px;
     }
+    .example-title {
+      font-size: 13px;
+    }
   </style>
 </head>
 <body onload="prettyPrint()">
@@ -55,7 +58,7 @@
         <div class="span7">
           <h1> Linear Algebra for Java </h1>
           <p>
-            Open Source and <strong>100%</strong> Java sparse/dense matrix library.
+            Lightweight and <strong>100%</strong> Java sparse/dense matrix library
           </p>
           <blockquote>
             <p style="font-size: 13px; line-height: 16px;">
@@ -77,13 +80,13 @@
         <div class="span3" style="text-align:right;">
           <img src="assets/img/la4j.png" />
           <p> 
-            <a class="btn btn-success btn-large" href="downloads/la4j-0.4.0.zip"><strong>Download</strong> la4j-0.4.0.zip</a> 
+            <a class="btn btn-success btn-large" href="https://github.com/vkostyukov/la4j/releases/download/v0.4.5/la4j-0.4.5.zip"><strong>Download</strong> la4j-0.4.5.zip</a> 
           </p>
           <ul class="unstyled">
             <li> <strong>la4j</strong> <a href="https://github.com/vkostyukov/la4j">@ GitHub</a> </li>
             <li> <strong>la4j</strong> <a href="http://la4j.blogspot.com">@ Blogger</a> </li>
             <li> <strong>la4j</strong> <a href="https://groups.google.com/forum/?fromgroups=#!forum/la4j">@ Google Groups</a> </li>
-            <li> <a href="apidocs/">JavaDoc</a> <strong>for la4j</strong></li>
+            <li> <a href="apidocs/">JavaDoc</a> for <strong>la4j</strong></li>
           </ul>
           <div class="g-plusone" data-size="standart" align="right" style="float:right"></div>
           <script type="text/javascript">
@@ -98,589 +101,465 @@
       <hr />
       <h2> Download </h2>
       <p>
-        The <strong>la4j</strong> might be simply downloaded by clicking big green button at the top of this page or by updating Maven's <code>pom.xml</code>.
+        The <strong>la4j</strong> might be simply downloaded by clicking big green button at the top of this page or by visiting it's <a href="https://github.com/vkostyukov/la4j/releases">GitHub releases page</a> or by updating Maven's <code>pom.xml</code>.
 <pre class="prettyprint">
 &lt;dependency>
   &lt;groupId&gt;org.la4j&lt;/groupId&gt;
   &lt;artifactId&gt;la4j&lt;/artifactId&gt;
-  &lt;version&gt;0.4.0&lt;/version&gt;
+  &lt;version&gt;0.4.5&lt;/version&gt;
 &lt;/dependency&gt;</pre> 
       </p>
       <br />
       <h2> Overview </h2>
       <p>
-        The <strong>la4j</strong> is single threaded, open source and pure Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives and algorithms. The key features of la4j listed bellow:
+      The <strong>la4j</strong> is open source and 100% Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives (matrices and vectors) and algorithms. The la4j was initially designed to be lightweight and simple tool for passionate Java developers. It has been started as student project and turned into one of the most popular Java packages for matrices and vectors.
       </p> 
+      <p>
+      The key features of the la4j are listed bellow:
+      </p>
       <ul>
-        <li>No dependencies and tiny size (~130kb jar)</li>
-        <li>Simple and object-oriented/functional API</li>
+        <li>Great performance allied with beautiful design</li>
+        <li>No dependencies and tiny size (~150kb jar)</li>
+        <li>Fluent object-oriented/functional API</li>
         <li>Sparse (<a href="http://netlib.org/linalg/html_templates/node91.html#SECTION00931100000000000000">CRS</a>, <a href="http://netlib.org/linalg/html_templates/node92.html#SECTION00931200000000000000">CCS</a>) and dense (1D/2D arrays) matrices</li>
         <li>Linear systems solving (Gaussian, Jacobi, Zeidel, Square Root, Sweep and other)</li>
-        <li>Matrices decomposition (Eigenvalues, SVD, QR, LU, Cholesky and other)</li>
+        <li>Matrices decomposition (Eigenvalues/Eigenvectors, SVD, QR, LU, Cholesky and other)</li>
         <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/<a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> IO formats support for matrices and vectors</li>
       </ul>
       <br />
-      <h2> Samples and Notes</h2>
       <hr />
-          <h4>Factories and Entries</h4>
-          <p>
-          There are four matrix classes in la4j which are used for handling dense and sparse matrices:
-          <ul>
-          <li><code>org.la4j.matrix.dense.Basic1DMatrix</code> uses 1D double array as internal representation</li>
-          <li><code>org.la4j.matrix.dense.Basic2DMatrix</code> uses 2D double array as internal representation</li>
-          <li><code>org.la4j.matrix.sparse.CRSMatrix</code> uses CRS - Compressed Row Storage format</li>
-          <li><code>org.la4j.matrix.sparse.CCSMatrix</code> uses CCS - Compressed Colummn Storage format</li>
-          </ul>
-          </p>
-          <p>
-          The la4j also supports vectors as separate entries. There are two types of vectors which also represent dense and sparse storages:
-          <ul>
-            <li><code>org.la4j.vector.dense.BasicVector</code> uses 1D double array as internal representation</li>
-            <li><code>org.la4j.vector.sparse.CompressedVector</code> uses compressed array as internal representation</li>
-          </ul> 
-          </p>
-          <p>
-          The cornerstown of la4j is its factories. Factories are used everywhere for producing new matrices and vectors. The following factories are supported:
-          <ul>
-            <li><code>org.la4j.factory.Basic1DFactory</code> produces <code>Basic1DMatrix</code> and <code>BasicVector</code></li>
-            <li><code>org.la4j.factory.Basic2DFactory</code> produces <code>Basic2DMatrix</code> and <code>BasicVector</code></li>
-            <li><code>org.la4j.factory.CRSFactory</code> produces <code>CRSMatrix</code> and <code>CompressedVector</code></li>
-            <li><code>org.la4j.factory.CCSFactory</code> produces <code>CCSMatrix</code> and <code>CompressedVector</code></li>
-          </ul>
-          </p>
-          <pre class="prettyprint linenums">
-Factory basic1d = new Basic1DFactory();
-Factory basic2d = new Basic2DFactory();
-Factory crs = new CRSFactory();
-Factory ccs = new CCSFactory();
-
-// 'a' is 3x3 dense 1D-Array matrix
-Matrix a = basic1d.createMatrix(new double[][] { 
-    {1.0, 0.0, 0.0}, 
-    {0.0, 5.0, 0.0}, 
-    {0.0, 0.0, 9.0} 
+      <h2> Use Cases </h2>
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <code>double</code> <i>array</i></span>
+<pre class="prettyprint">
+// A simple 2D array matrix
+Matrix a = new Basic2DMatrix(new double[][]{
+  { 1.0, 2.0, 3.0 },
+  { 4.0, 5.0, 6.0 },
+  { 7.0, 8.0, 9.0 }
 });
 
-// 'b' is 3x4 dense 2D-Array matrix
-Matrix b = basic2d.createMatrix(3, 4);
-
-// 'c' is 5x5 sparse CRS matrix that is copied from matrix 'a'
-Matrix c = crs.createMatrix(a);
-
-// 'd' is 10x10 constant sparse CCS matrix
-Matrix d = ccs.createConstantMatrix(10, 10, 42.0);
-
-// 'e' is 7x3 random dense 1D-Array matrix
-Matrix e = basic1d.createRandomMatrix(7, 3);
-
-// 'f' is 9x9 random symmetric dense 2D-Array matrix
-Matrix f = basic2d.createRandomSymmetricMatrix(9);
-
-// 'g' is 8x8 square sparse CRS matrix 
-Matrix g = crs.createSquareMatrix(8);
-
-// 'h' is 4x4 identity sparse CCS matrix
-Matrix h = ccs.createIdentityMatrix(4);
-
-// 'i' is empty dense 1D-Array matrix
-Matrix i = basic1d.createMatrix();
-
-// 'j' is dense vector that handles 3 elements
-Vector j = basic1d.createVector(new dobule[]{ 1.0, 2.0, 3.0 });
-
-// 'k' is sparse vector that handles 4 elements
-Vector k = crs.createVector(4);
-
-// 'l' is dense vector that is copied from vector 'j'
-Vector l = basic2d.createVector(j);
-
-// 'm' is constant sparse vector that handles 6 elements
-Vector m = ccs.createConstantVector(6, 42.0);
-
-// 'n' is random dense vector that handles 7 elements
-Vector n = basic1d.createRandomVector(7);
-
-// 'o' is empty sparse vector
-Vector o = crs.createVector();</pre>
-          <div class="alert alert-info"><small><strong>Tip!</strong> Don't use factories everywhere. Try public constructors!</small></div>
-          <p>
-            The la4j provides predefined factories instances which might be accessed via special static classes. There are two major static classes in la4j:
-            <code>org.la4j.matrix.Matrices</code> and <code>org.la4j.vector.Vectors</code>. These classes handle loads of usefull defaults for matrices and vectors. Here is the list of predifined static factories for matrices:
-            <ul>
-              <li><code>org.la4j.matrix.Matrices.BASIC1D_FACTORY</code></li>
-              <li><code>org.la4j.matrix.Matrices.BASIC2D_FACTORY</code></li>
-              <li><code>org.la4j.matrix.Matrices.CRS_FACTORY</code></li>
-              <li><code>org.la4j.matrix.Matrices.CCS_FACTORY</code></li>
-            </ul>
-            , and for vectors:
-            <ul>
-              <li><code>org.la4j.vector.Vectors.BASIC_FACTORY</code></li>
-              <li><code>org.la4j.vector.Vectors.COMPRESSED_FACTORY</code></li>
-            </ul>
-          </p>
-          <h4>Safe and Unsafe entries</h4>
-          Entries in la4j might be <code>safe</code> and <code>unsafe</code>. Matrices and vectors in la4j are <code>unsafe</code> by default. Unsafe entries don't perfrom bound checks before accessors, while safe ones do.
-          <pre class="prettyprint linenums">
-// 'a' is unsafe dense 2D-Array matrix
-Matrix a = new Basic2DMatrix(...);
-
-// 'b' is safe dense 2D-array matrix
-Matrix b = a.safe();
-
-// 'c' is equal to 'a'
-Matrix c = b.unsafe();
-
-// 'd' is unsafe sparse vector
-Vector d = new CompressedVector(...);
-
-// 'e' is safe sparse vector
-Vector e = c.safe();
-
-// 'f' is equal to 'd'
-Vector f = e.unsafe():</pre>
-          <br />
-          <h4>Rows and Columns</h4>
-          <p>
-            Matrices in la4j support access to their rows and columns via vectors.
-          </p>
-          <pre class="prettyprint linenums">
-// 'a' is sparse CRS matrix
-Matrix a = new CRSMatrix(...);
-
-// numbers of rows and columns in matrix 'a'
-int rows = a.rows();
-int columns = a.columns();
-
-// swaps columns in matrix 'a'
-a.swapColumns(0, columns - 1);
-
-// swaps rows in matrix 'a'
-a.swapRows(0, rows - 1);
-
-// 'r' is sparse compressed vector
-Vector r = a.getRow(0); 
-
-// 'c' is dense basic vector
-Vector c = a.getColumn(0, Vector.BASIC_FACTORY);
-
-// sets matrix row to given vector
-a.setRow(1, r);
-
-// sets matrix column to given vector
-a.setColumn(1, c);</pre>
-        <br />
-        <h4>Copying</h4>
-          <pre class="prettyprint linenums">
-Matrix a = new CRSMatrix(...);
-
-// copies matrix 'a' to matrix 'b'
-// result matrix 'b' is produced by Matrices.CRS_FACTORY
-Matrix b = a.copy();
-
-// copies matrix 'a' to matrix 'c'
-// result matrix 'c' is produced by Matrices.BASIC2D_FACTORY
-Matrix c = a.copy(Matrices.BASIC2D_FACTORY);
-
-// crates a blank copy (copy without values) of matrix 'a'
-// result matrix 'd' is produced by Matrices.BASIC1D_FACTORY
-Matrix d = a.blank(Matrices.BASIC1D_FACTORY)
-
-// 'h' is dense basic vector
-Vector e = BasicVector(...);
-
-// copies vector 'e' to vector 'f'
-// result vector 'f' is produced by Vectors.BASIC_FACTORY
-Vector f = e.copy();
-
-// copies vector 'e' to vector 'g'
-// result vector 'm' is produced by Vectors.COMPRESSED_FACTORY
-Vector g = e.copy(Vectors.COMPRESSED_FACTORY);
-
-// creates a blank copy (copy without values) of vector 'e'
-// result vector 'h' is produced by Vectors.BASIC_FACTORY
-Vector h = e.blank();</pre>
-        <br />
-          <h4>Resizing and Slicing</h4>
-          <p>
-            Entries in la4j are immutable in terms of dimmensions. It means that resizing can't be done in-place.
-          </p>
-          <pre class="prettyprint linenums">
-Matrix a = new CRSMatrix(...);
-
-// rows and columns of matrix 'a'
-int rows = a.rows();
-int columns = a.columns();
-
-// resizes matrix 'a' to given size
-// result matrix 'b' is produced by Matrices.CRS_FACTORY
-Matrix b = a.resize(rows + 1, columns + 1);
-
-// resizes matrix 'a' to given size
-// result matrix 'c' is produced by Matrices.CCS_FACTORY
-Matrix c = a.resize(rows - 1, columns - 1, Matrices.CCS_FACTORY);
-
-// equivalent to 'resize(rows + 1, columns)'
-Matrix d = a.resizeRows(rows + 1);
-
-// equivalent to 'resize(rows, columns + 1)'
-Matrix e = a.resizeColumns(columns + 1);
-
-// slices matrix 'a'
-// signature of slice is (fromRow, fromColumn, untilRow, untilColumn)
-// result matrix 'f' is produced by Matrices.CRS_FACTORY
-Matrix f = a.slice(1, 1, rows - 1, columns - 1);
-
-// slices matrix 'a'
-// equivalent to slice(0, 0, rows - 1, columns - 1);
-Matrix g = a.sliceTopLeft(rows - 1, columns - 1);
-
-// slices matrix 'a'
-// equivalent to slice(1, 1, rows, columns);
-Matrix h = a.sliceBottomRight(1, 1);
-
-Vector j = BasicVector(...);
-
-// length of vector 'j'
-int length = j.length();
-
-// resizes vector 'j' to new size
-// fesult vector 'k' is produced by Vectors.BASIC_FACTORY
-Vector k = j.resize(length + 1);
-
-// resizes vector 'j' to new size
-// fesult vector 'l' is produced Vectors.COMPRESSED_FACTORY
-Vector l = j.resize(length - 1, Vectors.COMPRESSED_FACTORY);
-
-// slices vector 'j'
-// signature of slice is (from, until)
-// fesult vector 'm' is produced by Vectors.BASIC_FACTORY
-Vector m = j.slice(1, length - 1);
-
-// slices vector 'j'
-// equivalent to slice(0, length - 1)
-Vector n = j.sliceLeft(length - 1);
-
-// slices vector 'j'
-// equivalent to slice(1, length)
-Vector o = j.sliceRight(1);</pre>
-        <br />
-        <h4>Basic operations</h4>
-        <pre class="prettyprint linenums">
-Matrix a = Basic2DMatrix(...);
-
-// assigns each element of matrix 'a' to 42.0
-a.assign(42.0);
-
-Matrix b = new CCSMatrix(...);
-Matrix c = new Basic1DMatrix(...);
-
-// multiplies matrix 'b' by matrix 'c'
-// result matrix 'd' is produced by Matrices.CCS_FACTORY
-Matrix d = b.multiply(c);
-
-// multiplies matrix 'b' by matrix 'c'
-// result matrix 'e' is produced by Matrices.BASIC1D_FACTORY
-Matrix e = a.multiply(b, Matrices.BASIC1D_FACTORY); 
-
-// adds matrix 'c' to matrix 'b'
-// result matrix 'f' is produced by Matrices.CCS_FACTORY
-Matrix f = b.add(c);
-
-// subtructs matrix 'c' from matrix 'b'
-// result matrix 'g' is produced by Matrices.BASIC2D_FACTORY
-Matrix g = b.subtruct(c, Matrices.BASIC2D_FACTORY);
-
-// scales matrix 'b' by value 42.0
-// result matrix 'h' is produced by Matrices.CCS_FACTORY
-Matrix h = b.multiply(42.0);
-
-// scales matrix 'b' by vaule 1/42.0
-// result matrix 'i' is produced by Matrices.BASIC1D_FACTORY
-Matrix i = b.divide(42.0, Matrices.BASIC1D_FACTORY);
-
-// adds 42.0 to each element of matrix 'b'
-// result matrix 'k' is produced by Matrices.CCS_FACTORY
-Matrix k = b.add(42.0);
-
-// subtructs 42.0 from each element of matrix 'b'
-// result matrix 'l' is produced by Matrices.CRS_FACTORY
-Matrix l = b.subtruct(42.0);
-
-// calculates Kronecker product of two matrices 'b' and 'c'
-// result matrix 'm' is produced by Matrices.CRS_FACTORY
-Matrix m = b.kronecker(c);
-
-Vector n = new BasicVector(...);
-
-// assigns each element of vector 'n' to 42.0
-n.assign(42.0);
-
-// multiplies matrix 'b' by vector
-// result vector 'o is produced by Vectors.COMPRESSED_FACTORY
-Vector o = b.multiply(n, Vectors.COMPRESSED_FACTORY);
-
-// multiplies vector 'n' by matrix 'b'
-// result vector 'p' is produced by Vectors.BASIC_FACTORY
-Vector p = n.multiply(b);</pre>
-        <br />
-        <h4>Specific operations</h4>
-        <pre class="prettyprint linenums">
-Matrix a = new CCSMatrix(...);
-Matrix b = new Basic2DMatrix(...);
-Vector c = new BasicVector(...);
-
-// calculates the trace of matrix
-double t = a.trace();
-
-// calculates the product of matrix
-double p = a.product();
-
-// calculates the determinant of matrix
-double d = a.determinant();
-
-// transposes matrix 'a'
-// result matrix 'e' is produced by Matrices.CCS_FACTORY
-Matrix e = a.transpose();
-
-// transposes matrix 'a'
-// result matrix 'f' is produced by Matrices.BASIC1D_FACTORY
-Matrix f = a.transpose(Matrices.BASIC1D_FACTORY);
-
-// converts matrix 'a' into tridiagonal matrix
-// result matrix 'g' is produced by Matrices.CCS_FACTORY
-Matrix g = a.triangularize();
-
-// converts matrix 'a' into tridiagonal matrix
-// result matrix 'h' is produced by Matrices.BASIC1D_FACTORY
-Matrix h = a.triangularize(Matrices.BASIC1D_FACTORY);
-
-// calculates L_1 norm of vector 'c'
-double n = c.norm();
-
-// normalizes vector 'c'
-// result vector 'j' is produced by Vectors.COMPRESSED_VECTOR
-Vector j = c.normalize(Vectors.COMPRESSED_VECTOR);</pre>
-        <br />
-        <h4>Functors</h4>
-        <p>
-          The la4j supports four types of functors which are used in hi-order methods. Matrices support the followig set of hi-order methods:
-          <ul>
-            <li><code>Matrix.each(...)</code> applies procedure to each element of matrix</li>
-            <li><code>Matrix.transform(...)</code> transforms matrix by applying function to each element of matrix</li>
-            <li><code>Matrix.update(...)</code> updates matrix (in-place transform)</li> 
-            <li><code>Matrix.is(...)</code> checks whether each element of matrix corresponds to predicate</li> 
-            <li><code>Matrix.fold(...)</code> reduces elements of matrix to single alue by using accumulator function</li> 
-          </ul>
-          , and following set of functors:
-          <ul>
-            <li><code>org.la4j.matrix.functor.MatrixProcedure</code></li>
-            <li><code>org.la4j.matrix.functor.MatrixFunction</code></li>
-            <li><code>org.la4j.matrix.functor.MatrixPredicate</code></li>
-            <li><code>org.la4j.matrix.functor.MatrixAccumulator</code></li>
-          </ul>
-        </p>
-        <pre class="prettyprint linenums">
-Matrix a = new CCSMatrix(...);
-
-// prints each element of matrix 'a' to stdout
-a.each(new MatrixProcedure() {
-  @Override
-  public void apply(int i, int j, double value) {
-    System.out.println(String.format("a[%d][%d] = %f", i, j, value));
-  }
+// This one uses 1D array as internal representation
+Matrix b = new Basic1DMatrix(new double[][]{
+  { 1.0, 2.0, 3.0 },
+  { 4.0, 5.0, 6.0 },
+  { 7.0, 8.0, 9.0 }
 });
-
-// increases each element of matrix 'a' by 1
-Matrix b = a.transform(Matrices.INC_MATRIX);
-
-// makes a diagonal matrix 
-Matrix c = a.transform(new MatrixFunction() {
-  @Override
-  public double evaluate(int i, int j, double value) {
-    return i == j ? value : 0.0;
-  }
-}, Matrices.BASIC2D_FACTORY);
-
-// calculates the sum of elements of matrix 'a'
-double s = a.fold(Matrices.asSumAccumulator(0.0));
-
-// calculates the product of elements of matrix 'a'
-double p = a.fold(Matrices.asProductAccumulator(1.0));
-
-// calculates the sum of '1' row
-double s1 = a.foldRow(1, Matrices.asSumAccumulator(0)); 
-// calculates the sum of '2' 
-double s2 = a.foldColumn(2, Matrices.asSumAccumulator(0));
-
-// the helper class that fetches border elements of matrix
-class PerimeterFetcher implements MatrixFunction {
-
-  private int rows;
-  private int columns;
-
-  public PerimeterFectcher(int rows, int columns) {
-    this.rows = rows;
-    this.columns = columns;
-  }      
-
-  @Override
-  public double evaluate(int i, int j, double value) {
-    return i == 0 ? value : j == 0 ? value : (i + 1) == rows ? value
-           : (j + 1) == columns ? value : 0;
-  }
-}
-
-// calculates the perimeter of matrix
-double p = a.fold(Matrices.asSumFunctionAccumulator(0, 
-                  new PerimeterFetcher(a.rows(), a.columns()))); 
-
-// returns 'true' if matrix 'a' is symmetric matrix
-boolean isSymmetric = a.is(Matrices.SYMMETRIC_MATRIX);
-
-// returns 'true' if matrix 'a' is tridiagonal matrix
-boolean isTridiagonal = a.is(Matrices.TRIDIAGONAL_MATRIX);
-
-// returns 'true' if matrix a is identity matrix
-boolean isIdentity = a.is(new MatrixPredicate() {
-  @Override
-  public boolean test(int i, int j, double value) {
-    return (i == j) ? Math.abs(value - 1.0) < Matrices.EPS
-                    : Math.abs(value) < Matrices.EPS;
-  }
-});</pre>
-        <br />
-        <h4>Sources</h4>
-        <pre class="prettyprint linenums">
-public class ConsoleMatrixSource implements MatrixSource {
-  @Override
-  public int rows() {
-    System.out.print("Enter matrix rows: ");
-    return new Scanner(System.in).nextInt();
-  }
-
-  @Override
-  public int columns() {
-    System.out.print("Enter matrix columns: ");
-    return new Scanner(System.in).nextInt();
-  }
-
-  @Override
-  public double get(int i, int j) {
-    System.out.printf("Enter matrix element [%d][%d]: ", i, j);
-    return new Scanner(System.in).nextDouble();
-  }
-}
-
-// a - is sparse CRS matrix got from stdin 
-Matrix a = new CRSMatrix(new ConsoleMatrixSource());
-
-// b - is 5x10 random dense 1D-array matrix
-Matrix b = new Basic1DMatrix(new RandomMatrixSource(5, 10));
-
-// c - is 10x10 identity dense 2D-array matrix
-Matrix c = new Basic2DMatrix(new IdentityMattixSource(10));
-
-// d - is 10x10 random symmetric CCS matrix
-Matrix d = new CCSMatrix(new RandomSymmetricMatrixSource(10));</pre>
-        <br />
-        <h4> Matrix inversion </h4>
-        <p>
-          There is only one inversion algorithm that is supported by la4j - <code>org.la4j.inversion.GaussianInvertor</code>. This invertor uses <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian Elimination</a> as core method for finding inverted matrix and can be touched via static field <code>Matrices.GAUSSIAN_INVERTOR</code> of <code>org.la4j.matrix.Matrices</code> class.
-        </p>
-        <pre class="prettyprint linenums">
-Matrix a = new Basic2DMatrix(...);
-
-// 'b' is a dense 2D-array matrix
-// DEFAULT_INVERTOR is alias for GAUSSIAN_INVERTOR
-Matrix b = a.inverse(Matrices.DEFAULT_INVERTOR);
-
-// 'c' is a sparse CCS matrix
-Matrix c = a.inverse(Matrices.DEFAULT_INVERTOR, Matrices.CCS_FACTORY);</pre>
-        <br />
-        <h4>Solving linear systems</h4>
-        <p>
-          Following solvers are supported by la4j:
-          <ul>
-            <li><code>org.la4j.linear.GaussianSolver</code> implements <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian Elimination</a></li>
-            <li><code>org.la4j.linear.JacobiSolver</code> implements <a href="http://en.wikipedia.org/wiki/Jacobi_method">Jacobi method</a></li>
-            <li><code>org.la4j.linear.SeidelSolver</code> implements <a href="http://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method">Gauss-Seidel method</a></li>
-            <li><code>org.la4j.linear.SquareRootSolver</code> implements Square Roots method</li>
-            <li><code>org.la4j.linear.SweepSolver</code> implements <a href="http://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm">Tridiagonal Matrix algorithm</a></li>
-          </ul>
-          , which can be accessed via predefined static fields of <code>org.la4j.matrix.Matrices</code>:
-          <ul>
-            <li><code>Matrices.GAUSSIAN_SOLVER</code></li>
-            <li><code>Matrices.JACOBI_SOLVER</code></li>
-            <li><code>Matrices.SEIDEL_SOLVER</code></li>
-            <li><code>Matrices.SQUARE_ROOT_SOLVER</code></li>
-            <li><code>Matrices.SWEEP_SOLVER</code></li>
-          </ul>
-        </p>
-        <pre class="prettyprint linenums">
-Matrix a = new CRSMatrix(...);
-Vector b = new BasicVector(...);
-
-LinearSystem system = Matrices.asLinearSystem(a, b);
-
-// solves the linear system with the most efficient solver
-// 'x' is a sparse compressed vector
-Vector x = system.solve(); 
-
-// solves the linear system with specified solver
-// 'y' is a dense basic vector
-Vector y = system.solve(Matrices.GAUSSIAN_SOLVER, Matrices.BASIC2D_FACTORY);</pre>
-        <br />
-        <h4>Matrix decomposition</h4>
-        <p>
-          The la4j supports following decompositions: 
-          <ul>
-            <li><code>org.la4j.decomposition.CholeskyDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Cholesky decomposition</a></li>
-            <li><code>org.la4j.decomposition.EigenDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Eigen decomposition</a></li>
-            <li><code>org.la4j.decomposition.LUDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/LU_decomposition">LU decomposition</a></li>
-            <li><code>org.la4j.decomposition.QRDecomposition</code> implements <a href="http://en.wikipedia.org/wiki/QR_decomposition">QR decomposition</a></li>
-            <li><code>org.la4j.decomposition.SingularValueDecompositor</code> implements <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a></li>
-          </ul>
-          , which can be used via predefined singleton instances in class <code>org.la4j.matrix.Matrices</code>:
-          <ul>
-            <li><code>Matrices.CHOLESKY_DECOMPOSITOR</code></li>
-            <li><code>Matrices.EIGEN_DECOMPOSITOR</code></li>
-            <li><code>Matrices.LU_DECOMPOSITOR</code></li>
-            <li><code>Matrices.QR_DECOMPOSITOR</code></li>
-            <li><code>Matrices.SINGULAR_VALUE_DECOMPOSITOR</code></li>
-          </ul>
-        </p>
-        <pre class="prettyprint linenums">
-Matrix a = new Basic1DMatrix(...);
-
-// qr[0] = Q, qr[1] = R; Q, R - dense 1D-array matrices
-Matrix[] qr = a.decompose(Matrices.QR_DECOMPOSITOR);
-
-// lu[0] = L, lu[1] = U; L, U - sparse CRS matrices
-Matrix[] lu = a.decompose(Matrices.LU_DECOMPOSITOR, Matrices.CRS_FACTORY);
-
-// usv[0] = U, usv[1] = S, usv[2] = V; U, S, V - dense 1D-array matrices
-Matrix[] usv = a.decompose(Matrices.SINGULAR_VALUE_DECOMPOSITOR);</pre>
-        <h4>Input/Output</h4>
-        <p>
-          The la4j supports two IO formats: 
-          <ul>
-            <li><code>org.la4j.io.MatrixMarketStream</code> implements MatrixMarket format</li>
-            <li><code>org.la4j.io.SymbolSeparatedStream</code> implements CSS, TSS, etc.</li>
-          </ul>
-        </p>
-        <pre class="prettyprint linenums">
-Matrix a = new Basic2DMatrix(...);
-
-// MatrixMarket format provider
-// writing matrix 'a' to file 
-MatrixStream out = new MatrixMarketStream(new FileOutputStream("file.mm"));
-out.writeMatrix(a);
-
-// reading matrix from file
-MatrixStream in = new MatrixMarketStream(new FileInputStream("file.mm"));
-Matrix b = in.readMatrix(Matrices.CRS_FACTORY);
 </pre>
-      <br />
+<br />
+<span class="label label-inverse">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <i>CSV</i> file</span>
+<pre class="prettyprint">
+/*** matrix.cvs
+
+1.0, 2.0, 3.0
+4.0, 5.0, 6.0
+7.0, 8.0, 9.0
+
+***/
+
+// We will use a Symbol Separated source provider
+Matrix a = new Basic2DMatrix(Matrices.asSymbolSeparatedSource(
+                             new FileInputStream("matrix.csv")));
+</pre>
+<br />
+<span class="label">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <i>MatrixMarket</i> file</span>
+<pre class="prettyprint">
+/*** matrix.mm
+
+%%MatrixMarket matrix array real general
+% rows columns
+3 3
+% value
+1.0
+2.0
+3.0
+4.0
+5.0
+6.0
+7.0
+8.0
+9.0
+
+***/
+
+// We will use a MatrixMarket source provider
+Matrix a = new Basic1DMatrix(Matrices.asMatrixMarketSource(
+                             new FileInputStream("matrix.mm")));
+</pre>
+<br />
+<span class="label label-success">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <code>double</code> <i>array</i></span>
+<pre class="prettyprint">
+// A 'Compressed Row Storage' matrix
+Matrix a = new CRSMatrix(new double[][]{
+  { 1.0, 0.0, 3.0 },
+  { 0.0, 5.0, 0.0 },
+  { 7.0, 0.0, 9.0 }
+});
+
+// This one implements 'Compressed Column Storage' format
+Matrix b = new CCSMatrix(new double[][]{
+  { 0.0, 2.0, 0.0 },
+  { 4.0, 5.0, 6.0 },
+  { 0.0, 0.0, 9.0 }
+});
+</pre>
+<br />
+<span class="label label-important">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <i>CSV</i> file</span>
+<pre class="prettyprint">
+/*** matrix.cvs
+
+1.0, 0.0, 3.0
+0.0, 5.0, 0.0
+7.0, 0.0, 9.0
+
+***/
+
+// We will use a Symbol Separated source provider
+Matrix a = new CRSMatrix(Matrices.asSymbolSeparatedSource(
+                         new FileInputStream("matrix.csv")));
+</pre>
+<br />
+<span class="label label-info">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <i>MatrixMarket</i> file</span>
+<pre class="prettyprint">
+/*** matrix.mm
+
+%%MatrixMarket matrix coordinate real general
+% rows columns non-zero-values
+3 3 5
+% row column value
+1 2 2.0
+2 1 4.0
+2 2 5.0
+2 3 6.0
+3 3 9.0
+
+***/
+
+// We will use a MatrixMarket source provider
+Matrix a = new CCSMatrix(Matrices.asMatrixMarketSource(
+                         new FileInputStream("matrix.mm")));
+</pre>
+<br />
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Create new <strong>dense/sparse</strong> vector from <code>double</code> <i>array</i></span>
+<pre class="prettyprint">
+// A simple array-based vector
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+
+// A compressed vector that uses double array as internal representation
+Vector b = new CompressedVector(new double[] { 0.0, 2.0, 0.0 });
+</pre>
+<br />
+<span class="label label-inverse">&nbsp;</span> <span class="example-title">Create new <strong>dense/sparse</strong> vector from <i>CSV</i> file</span>
+<pre class="prettyprint">
+/*** vector.cvs
+
+0.0, 2.0, 0.0
+
+***/
+
+// We will use a Symbol Separated source provider
+Vector a = new BasicVector(Vectors.asSymbolSeparatedSource(
+                           new FileInputStream("vector.csv")));
+
+Vector b = new CompressedVector(Vectors.asSymbolSeparatedSource(
+                                new FileInputStream("vector.csv")));
+</pre>
+<br />
+<span class="label label-success">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> vector from <i>MatrixMarket</i> file</span>
+<pre class="prettyprint">
+/*** vector.mm
+
+%%MatrixMarket vector array real general
+% length
+3
+% value
+1.0
+2.0
+3.0
+
+***/
+
+// We will use a MatrixMarket source provider
+Vector a = new BasicVector(Vectors.asMatrixMarketSource(
+                           new FileInputStream("vector.mm")));
+</pre>
+<br />
+<span class="label label-important">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> vector from <i>MatrixMarket</i> file</span>
+<pre class="prettyprint">
+/*** vector.mm
+
+%%MatrixMarket vector coordinate real general
+% length non-zero-values
+3 1
+% index value
+2 2.0
+
+***/
+
+// We will use a MatrixMarket source provider
+Vector a = new CompressedVector(Vectors.asMatrixMarketSource(
+                                new FileInputStream("vector.mm")));
+</pre>
+<br />
+<span class="label">&nbsp;</span> <span class="example-title">Convert matrix to vector</span>
+<pre class="prettyprint">
+// A 'Compressed Row Storage' matrix
+Matrix a = new CRSMatrix(new double[][]{
+  { 1.0, 0.0, 3.0 },
+  { 0.0, 5.0, 0.0 },
+  { 7.0, 0.0, 9.0 }
+});
+
+// We want to take first row of the matrix 'a' as sparse vector 'b'
+Vector b = a.toRowVector();
+
+// We want to take first column of the matrix 'a' as sparse vector 'c'
+Vector c = a.toColumnVector();
+</pre>
+<br />
+<span class="label label-info">&nbsp;</span> <span class="example-title">Convert vector to matrix</span>
+<pre class="prettyprint">
+// A simple array-based vector
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+
+// We want to take vector 'a' as first row of dense matrix 'b'
+Matrix b = a.toRowMatrix();
+
+// We want to take vector 'a' as first column of dense matrix 'c'
+Matrix c = a.toColumnMatrix();
+</pre>
+<br />
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Convert <strong>dense</strong> matrix to <strong>sparse</strong> matrix</span>
+<pre class="prettyprint">
+// This matrix uses 1D array as internal representation
+Matrix a = new Basic1DMatrix(new double[][]{
+  { 1.0, 2.0, 3.0 },
+  { 4.0, 5.0, 6.0 },
+  { 7.0, 8.0, 9.0 }
+});
+
+// Convert Basic1DMatrix to CRSMatrix
+Matrix b = a.copy(LinearAlgebra.CRS_FACTORY);
+</pre>
+<br />
+<span class="label label-inverse">&nbsp;</span> <span class="example-title">Convert <strong>sparse</strong> matrix to <strong>dense</strong> matrix</span>
+<pre class="prettyprint">
+// This matrix implements 'Compressed Column Storage' format
+Matrix a = new CCSMatrix(new double[][]{
+  { 0.0, 2.0, 0.0 },
+  { 4.0, 5.0, 6.0 },
+  { 0.0, 0.0, 9.0 }
+});
+
+// Convert CCSMatrix to Basic2DMatrix
+Matrix b = a.copy(LinearAlgebra.BASIC2D_FACTORY);
+</pre>
+<br />
+<span class="label label-success">&nbsp;</span> <span class="example-title">Convert vectors</span>
+<pre class="prettyprint">
+// A simple array-based vector
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+
+// Convert BasicVector to CompressedVector
+Vector b = c.copy(LinearAlgebra.SPARSE_FACTORY);
+
+// Convert CompressedVector to BasicVector
+Vector c = b.copy(LinearAlgebra.DENSE_FACTORY);
+</pre>
+<br />
+<span class="label label-important">&nbsp;</span> <span class="example-title">Transform matrix using predefined functors</span>
+<pre class="prettyprint">
+// We want simple dense matrix that uses 2D array as internal representation
+Matrix a = new Basic2DMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 5.0, 6.0 },
+   { 7.0, 8.0. 9.0 }
+});
+
+// Multiply each element of matrix 'a' by 10.0
+Matrix b = a.transform(Matrices.asMulFunction(10.0));
+
+// Increase each element of matrix 'b' by 1 
+Matrix c = b.transform(Matrices.INC_FUNCTION);
+</pre>
+<br />
+<span class="label label-info">&nbsp;</span> <span class="example-title">Transform matrix using used-defined functors</span>
+<pre class="prettyprint">
+// We want CRS matrix
+Matrix a = new CRSMatrix(new double[][] {
+   { 1.0, 0.0, 0.0 },
+   { 4.0, 5.0, 6.0 },
+   { 0.0, 0.0. 9.0 }
+});
+
+// We keep only diagonal elements of matrix 'a'
+Matrix b = a.transform(new MatrixFunction() {
+  @Override
+  public double evaluate(int i, int j, double value) {
+    return (i == j) ? value : 0.0;
+  }
+});
+</pre>
+<br />
+<span class="label label">&nbsp;</span> <span class="example-title">Multiply matrix by matrix</span>
+<pre class="prettyprint">
+// We want CCS matrix
+Matrix a = new CCSMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 0.0, 6.0 },
+   { 7.0, 0.0. 9.0 }
+});
+
+// We want 2D array matrix
+Matrix b = new Basic2DMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 5.0, 6.0 },
+   { 7.0, 8.0. 9.0 }
+});
+
+// Multiply 'a' by 'b'
+Matrix c = a.multiply(b);
+</pre>
+<br />
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Multiply matrix by vector</span>
+<pre class="prettyprint">
+// We want CRS matrix
+Matrix a = new CRSMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 0.0, 6.0 },
+   { 7.0, 0.0. 9.0 }
+});
+
+// We want sparse vector
+Vector b = new CompressedVector(new double[] { 1.0, 0.0, 3.0 });
+
+// Multiply 'a' by 'b'
+Vector c = a.multiply(b);
+</pre>
+<br />
+<span class="label label-inverse">&nbsp;</span> <span class="example-title">Multiply vector by matrix</span>
+<pre class="prettyprint">
+// We want dense vector
+Vector a = new BasicVector(new double[] { 1.0, 0.0, 3.0 });
+
+// We want CCS matrix
+Matrix b = new CCSMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 0.0, 6.0 },
+   { 7.0, 0.0. 9.0 }
+});
+
+// Multiply 'a' by 'b'
+Vector c = a.multiply(b);
+</pre>
+<br />
+<span class="label label-success">&nbsp;</span> <span class="example-title">Compute inner-product (dot-product) of two vectors</span>
+<pre class="prettyprint">
+// We want dense vectors
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
+
+double d = a.innerProduct(b); // 1.0*4.0 + 2.0*5.0 + 3.0*6.0 = 32
+</pre>
+<br />
+<span class="label label-info">&nbsp;</span> <span class="example-title">Compute Hadamard product (element-wise product) of two vectors</span>
+<pre class="prettyprint">
+// We want dense vectors
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
+
+Vector c = a.hadamardProduct(b); // Vector { 4.0, 10.0, 18.0 }
+</pre>
+<br />
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Compute Outer product of two vectors, which produces a matrix as result</span>
+<pre class="prettyprint">
+// We want dense vectors
+Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
+Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
+
+/* 
+Matrix {
+  4.0,  5.0,  6.0
+  8.0, 10.0, 12.0
+ 12.0, 15.0, 18.0
+}
+*/
+Matrix c = a.outerProduct(b);
+</pre>
+<br />
+<span class="label label-important">&nbsp;</span> <span class="example-title">Matrix inversion</span>
+<pre class="prettyprint">
+// We want simple dense matrix that uses 2D array as internal representation
+Matrix a = new Basic2DMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 5.0, 6.0 },
+   { 7.0, 8.0. 9.0 }
+});
+
+// We will use Gauss-Jordan method for inverting
+MatrixInverter inverter = a.withInverter(LinearAlgebra.GAUSS_JORDAN);
+// The 'b' matrix will be dense
+Matrix b = inverter.invert(LinearAlgebra.DENSE_FACTORY);
+</pre>
+<br />
+<span class="label label-info">&nbsp;</span> <span class="example-title">System of linear equations (m = n)</span>
+<pre class="prettyprint">
+// The coefficient matrix 'a' is a CRS (Compressed Row Storage) matrix 
+Matrix a = new CRSMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 5.0, 6.0 },
+   { 7.0, 8.0. 9.0 }
+});
+
+// A right hand side vector, which is simple dense vector
+Vector b = new BasicVector(new double[] {
+   1.0, 2.0, 3.0
+});
+
+// We will use standard Forward-Back Substitution method,
+// which is based on LU decomposition and can be used with square systems
+LinearSystemSolver solver = a.withSolver(LinearAlgebra.FORWARD_BACK_SUBSTITUTION);
+// The 'x' vector will be sparse
+Vector x = solver.solve(b, LinearAlgebra.SPARSE_FACTORY);
+</pre>
+<br />
+<span class="label">&nbsp;</span> <span class="example-title">System of linear equations (m > n)</span>
+<pre class="prettyprint">
+// The coefficient matrix 'a' is dense 1D matrix 
+Matrix a = new Basic1DMatrix(new double[][] {
+   {  1.0,  2.0,  3.0 },
+   {  4.0,  5.0,  6.0 },
+   {  7.0,  8.0.  9.0 },
+   { 10.0, 11.0. 12.0 },
+   { 13.0, 14.0. 15.0 }
+});
+
+// A right hand side vector, which is simple dense vector
+Vector b = new BasicVector(new double[] {
+   1.0, 2.0, 3.0, 4.0, 5.0
+});
+
+// We will use Least Squares method,
+// which is based on QR decomposition and can be used with overdetermined systems
+LinearSystemSolver solver = a.withSolver(LinearAlgebra.LEAST_SQUARES);
+// The 'x' vector will be sparse
+Vector x = solver.solve(b, LinearAlgebra.DENSE_FACTORY);
+</pre>
+<br />
+<span class="label label-warning">&nbsp;</span> <span class="example-title">Matrix decomposition (i.e. LU)</span>
+<pre class="prettyprint">
+// We want simple dense matrix, which is based on 1D double's array 
+Matrix a = new Basic1DMatrix(new double[][] {
+   { 1.0, 2.0, 3.0 },
+   { 4.0, 5.0, 6.0 },
+   { 7.0, 8.0. 9.0 }
+});
+
+// We will use LU decompositor
+MatrixDecompositor decompositor = a.withDecompositor(LinearAlgebra.LU);
+// The result should be treated as: L = lup[0], U = lup[1], P = lup[2]
+Matrix[] lup = decompositor.decompose(LinearAlgebra.DENSE_FACTORY);
+</pre>
+      <hr />
       <h2> Contributions </h2>
       <p>
         The <a href="https://github.com/vkostyukov/la4j">la4j project</a> is maintained at <a href="https://github.com">GitHub</a>, where you can:
@@ -714,7 +593,7 @@ Matrix b = in.readMatrix(Matrices.CRS_FACTORY);
           <div class="span5" style="text-align:right;">
             <ul class="unstyled">
               <li>Created <code>26-Jul-2012</code></li>
-              <li>Updated <code>1-Jun-2013</code></li>
+              <li>Updated <code>1-Oct-2013</code></li>
             </ul>
           </div>
         </div>
