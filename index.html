@@ -8,6 +8,7 @@
   <title>la4j - Linear Algebra for Java</title>
   <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="assets/css/prettify.min.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="assets/js/prettify.js"></script>
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -24,16 +25,16 @@
     .container {
       width: 800px;
     }
-    .content {
-      margin-top: 10px;
-      font-size: 15px;
-      line-height: 20px;
+    body {
+      font-family: 'PT Sans', sans-serif;
+      font-size: 18px;
+      line-height: 1.4em;
     }
     li {
-      line-height: 20px;
+      margin-top: 0.5em;
     }
     small {
-      font-size: 12px;
+      font-size: 14px;
     }
     pre.prettyprint {
       margin-top: 8px;
@@ -41,53 +42,25 @@
       font-size: 14px;
     }
     footer {
-      font-size: 13px;
+      font-size: 14px;
     }
     blockquote.p {
       font-size: 10px;
-    }
-    .example-title {
-      font-size: 13px;
     }
   </style>
 </head>
 <body onload="prettyPrint()">
 <a href="https://github.com/vkostyukov/la4j"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>  <div class="container">
     <div class="content">
-      <div class="row">
-        <div class="span7">
-          <h1> Linear Algebra for Java </h1>
-          <p>
-            Lightweight and <strong>100%</strong> Java sparse/dense matrix library
-          </p>
-          <blockquote>
-            <p style="font-size: 13px; line-height: 16px;">
-              I've read through parts of <strong>la4j</strong> library. It's very well designed - not too much object poetry (though there's a bit of a factory proliferation), some good defaults, and so far - I'm using the sparse matrix and vector classes - performance is good.
-            </p>
-            <small>
-              John Stewart, <a href="http://www.amplify.com/">Amplify, Inc</a>, New York, USA
-            </small>
-          </blockquote>
-          <blockquote>
-            <p style="font-size: 13px; line-height: 16px;">
-              I found <strong>la4j-0.4.0</strong> has a lot of changes compared to the previous version. And I am glad that the AbstractMatrix has included a lot new functionalities like Kronecker product and slice operations. What a wonderful job!
-            </p>
-            <small>
-              Xiaorui Jiang, <a href="http://www.zju.edu.cn/english/">Zhejiang University of Technology</a>, Zhejiang, China
-            </small>
-          </blockquote>
-          </div>
-        <div class="span3" style="text-align:right;">
-          <img src="assets/img/la4j.png" />
-          <p> 
-            <a class="btn btn-success btn-large" href="https://github.com/vkostyukov/la4j/releases/download/v0.4.9/la4j-0.4.9.zip"><strong>Download</strong> la4j-0.4.9.zip</a> 
-          </p>
-          <ul class="unstyled">
-            <li> <strong>la4j</strong> <a href="https://github.com/vkostyukov/la4j">@ GitHub</a> </li>
-            <li> <strong>la4j</strong> <a href="http://la4j.blogspot.com">@ Blogger</a> </li>
-            <li> <strong>la4j</strong> <a href="https://groups.google.com/forum/?fromgroups=#!forum/la4j">@ Google Groups</a> </li>
-            <li> <a href="apidocs/">JavaDoc</a> for <strong>la4j</strong></li>
-          </ul>
+      <center>
+        <img height="200px" src="assets/img/la4j-logo.png" />
+      </center>
+      <p>
+        The la4j library is open source and 100% Java library that provides <a href="  http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives (matrices and vectors) and algorithms. The library was initially designed to be lightweight and simple tool for passionate Java developers. It has been started as student project and turned into one of the most popular Java packages for matrices and vectors.
+      </p>
+
+      <p>
+        <center>
           <div class="g-plusone" data-size="standart" align="right" style="float:right"></div>
           <script type="text/javascript">
             (function() {
@@ -96,26 +69,27 @@
               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
             })();
           </script>
-        </div>
-      </div>
+          </div>
+        </center>
+      </p>
+
       <hr />
-      <h2> Download </h2>
+
+      <h1> Installation </h1>
       <p>
-        The <strong>la4j</strong> might be simply downloaded by clicking big green button at the top of this page or by visiting it's <a href="https://github.com/vkostyukov/la4j/releases">GitHub releases page</a> or by updating Maven's <code>pom.xml</code>.
+        The details on latest stable version might be found at <a href="https://github.com/vkostyukov/la4j/releases">GitHub releases page</a>.
 <pre class="prettyprint">
 &lt;dependency>
   &lt;groupId&gt;org.la4j&lt;/groupId&gt;
   &lt;artifactId&gt;la4j&lt;/artifactId&gt;
-  &lt;version&gt;0.4.9&lt;/version&gt;
+  &lt;version&gt;0.5.0&lt;/version&gt;
 &lt;/dependency&gt;</pre> 
       </p>
+
       <br />
-      <h2> Overview </h2>
+      <h1> Overview </h1>
       <p>
-      The <strong>la4j</strong> is open source and 100% Java library that provides <a href="http://mathworld.wolfram.com/LinearAlgebra.html">Linear Algebra</a> primitives (matrices and vectors) and algorithms. The la4j was initially designed to be lightweight and simple tool for passionate Java developers. It has been started as student project and turned into one of the most popular Java packages for matrices and vectors.
-      </p> 
-      <p>
-      The key features of the la4j are listed bellow:
+      The key features of the la4j library are:
       </p>
       <ul>
         <li>Great performance allied with beautiful design</li>
@@ -127,473 +101,34 @@
         <li><a href="http://math.nist.gov/MatrixMarket/formats.html">MatrixMarket</a>/<a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> IO formats support for matrices and vectors</li>
       </ul>
       <br />
-      <hr />
-      <h2> Use Cases </h2>
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <code>double</code> <i>array</i></span>
-<pre class="prettyprint">
-// A simple 2D array matrix
-Matrix a = new Basic2DMatrix(new double[][]{
-  { 1.0, 2.0, 3.0 },
-  { 4.0, 5.0, 6.0 },
-  { 7.0, 8.0, 9.0 }
-});
-
-// This one uses 1D array as internal representation
-Matrix b = new Basic1DMatrix(new double[][]{
-  { 1.0, 2.0, 3.0 },
-  { 4.0, 5.0, 6.0 },
-  { 7.0, 8.0, 9.0 }
-});
-</pre>
-<br />
-<span class="label label-inverse">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <i>CSV</i> file</span>
-<pre class="prettyprint">
-/*** matrix.cvs
-
-1.0, 2.0, 3.0
-4.0, 5.0, 6.0
-7.0, 8.0, 9.0
-
-***/
-
-// We will use a Symbol Separated source provider
-Matrix a = new Basic2DMatrix(Matrices.asSymbolSeparatedSource(
-                             new FileInputStream("matrix.csv")));
-</pre>
-<br />
-<span class="label">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> matrix from <i>MatrixMarket</i> file</span>
-<pre class="prettyprint">
-/*** matrix.mm
-
-%%MatrixMarket matrix array real general
-% rows columns
-3 3
-% value
-1.0
-2.0
-3.0
-4.0
-5.0
-6.0
-7.0
-8.0
-9.0
-
-***/
-
-// We will use a MatrixMarket source provider
-Matrix a = new Basic1DMatrix(Matrices.asMatrixMarketSource(
-                             new FileInputStream("matrix.mm")));
-</pre>
-<br />
-<span class="label label-success">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <code>double</code> <i>array</i></span>
-<pre class="prettyprint">
-// A 'Compressed Row Storage' matrix
-Matrix a = new CRSMatrix(new double[][]{
-  { 1.0, 0.0, 3.0 },
-  { 0.0, 5.0, 0.0 },
-  { 7.0, 0.0, 9.0 }
-});
-
-// This one implements 'Compressed Column Storage' format
-Matrix b = new CCSMatrix(new double[][]{
-  { 0.0, 2.0, 0.0 },
-  { 4.0, 5.0, 6.0 },
-  { 0.0, 0.0, 9.0 }
-});
-</pre>
-<br />
-<span class="label label-important">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <i>CSV</i> file</span>
-<pre class="prettyprint">
-/*** matrix.cvs
-
-1.0, 0.0, 3.0
-0.0, 5.0, 0.0
-7.0, 0.0, 9.0
-
-***/
-
-// We will use a Symbol Separated source provider
-Matrix a = new CRSMatrix(Matrices.asSymbolSeparatedSource(
-                         new FileInputStream("matrix.csv")));
-</pre>
-<br />
-<span class="label label-info">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> matrix from <i>MatrixMarket</i> file</span>
-<pre class="prettyprint">
-/*** matrix.mm
-
-%%MatrixMarket matrix coordinate real general
-% rows columns non-zero-values
-3 3 5
-% row column value
-1 2 2.0
-2 1 4.0
-2 2 5.0
-2 3 6.0
-3 3 9.0
-
-***/
-
-// We will use a MatrixMarket source provider
-Matrix a = new CCSMatrix(Matrices.asMatrixMarketSource(
-                         new FileInputStream("matrix.mm")));
-</pre>
-<br />
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Create new <strong>dense/sparse</strong> vector from <code>double</code> <i>array</i></span>
-<pre class="prettyprint">
-// A simple array-based vector
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-
-// A compressed vector that uses double array as internal representation
-Vector b = new CompressedVector(new double[] { 0.0, 2.0, 0.0 });
-</pre>
-<br />
-<span class="label label-inverse">&nbsp;</span> <span class="example-title">Create new <strong>dense/sparse</strong> vector from <i>CSV</i> file</span>
-<pre class="prettyprint">
-/*** vector.cvs
-
-0.0, 2.0, 0.0
-
-***/
-
-// We will use a Symbol Separated source provider
-Vector a = new BasicVector(Vectors.asSymbolSeparatedSource(
-                           new FileInputStream("vector.csv")));
-
-Vector b = new CompressedVector(Vectors.asSymbolSeparatedSource(
-                                new FileInputStream("vector.csv")));
-</pre>
-<br />
-<span class="label label-success">&nbsp;</span> <span class="example-title">Create new <strong>dense</strong> vector from <i>MatrixMarket</i> file</span>
-<pre class="prettyprint">
-/*** vector.mm
-
-%%MatrixMarket vector array real general
-% length
-3
-% value
-1.0
-2.0
-3.0
-
-***/
-
-// We will use a MatrixMarket source provider
-Vector a = new BasicVector(Vectors.asMatrixMarketSource(
-                           new FileInputStream("vector.mm")));
-</pre>
-<br />
-<span class="label label-important">&nbsp;</span> <span class="example-title">Create new <strong>sparse</strong> vector from <i>MatrixMarket</i> file</span>
-<pre class="prettyprint">
-/*** vector.mm
-
-%%MatrixMarket vector coordinate real general
-% length non-zero-values
-3 1
-% index value
-2 2.0
-
-***/
-
-// We will use a MatrixMarket source provider
-Vector a = new CompressedVector(Vectors.asMatrixMarketSource(
-                                new FileInputStream("vector.mm")));
-</pre>
-<br />
-<span class="label">&nbsp;</span> <span class="example-title">Convert matrix to vector</span>
-<pre class="prettyprint">
-// A 'Compressed Row Storage' matrix
-Matrix a = new CRSMatrix(new double[][]{
-  { 1.0, 0.0, 3.0 },
-  { 0.0, 5.0, 0.0 },
-  { 7.0, 0.0, 9.0 }
-});
-
-// We want to take first row of the matrix 'a' as sparse vector 'b'
-Vector b = a.toRowVector();
-
-// We want to take first column of the matrix 'a' as sparse vector 'c'
-Vector c = a.toColumnVector();
-</pre>
-<br />
-<span class="label label-info">&nbsp;</span> <span class="example-title">Convert vector to matrix</span>
-<pre class="prettyprint">
-// A simple array-based vector
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-
-// We want to take vector 'a' as first row of dense matrix 'b'
-Matrix b = a.toRowMatrix();
-
-// We want to take vector 'a' as first column of dense matrix 'c'
-Matrix c = a.toColumnMatrix();
-</pre>
-<br />
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Convert <strong>dense</strong> matrix to <strong>sparse</strong> matrix</span>
-<pre class="prettyprint">
-// This matrix uses 1D array as internal representation
-Matrix a = new Basic1DMatrix(new double[][]{
-  { 1.0, 2.0, 3.0 },
-  { 4.0, 5.0, 6.0 },
-  { 7.0, 8.0, 9.0 }
-});
-
-// Convert Basic1DMatrix to CRSMatrix
-Matrix b = a.copy(LinearAlgebra.CRS_FACTORY);
-</pre>
-<br />
-<span class="label label-inverse">&nbsp;</span> <span class="example-title">Convert <strong>sparse</strong> matrix to <strong>dense</strong> matrix</span>
-<pre class="prettyprint">
-// This matrix implements 'Compressed Column Storage' format
-Matrix a = new CCSMatrix(new double[][]{
-  { 0.0, 2.0, 0.0 },
-  { 4.0, 5.0, 6.0 },
-  { 0.0, 0.0, 9.0 }
-});
-
-// Convert CCSMatrix to Basic2DMatrix
-Matrix b = a.copy(LinearAlgebra.BASIC2D_FACTORY);
-</pre>
-<br />
-<span class="label label-success">&nbsp;</span> <span class="example-title">Convert vectors</span>
-<pre class="prettyprint">
-// A simple array-based vector
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-
-// Convert BasicVector to CompressedVector
-Vector b = c.copy(LinearAlgebra.SPARSE_FACTORY);
-
-// Convert CompressedVector to BasicVector
-Vector c = b.copy(LinearAlgebra.DENSE_FACTORY);
-</pre>
-<br />
-<span class="label label-important">&nbsp;</span> <span class="example-title">Transform matrix using predefined functors</span>
-<pre class="prettyprint">
-// We want simple dense matrix that uses 2D array as internal representation
-Matrix a = new Basic2DMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 5.0, 6.0 },
-   { 7.0, 8.0. 9.0 }
-});
-
-// Multiply each element of matrix 'a' by 10.0
-Matrix b = a.transform(Matrices.asMulFunction(10.0));
-
-// Increase each element of matrix 'b' by 1 
-Matrix c = b.transform(Matrices.INC_FUNCTION);
-</pre>
-<br />
-<span class="label label-info">&nbsp;</span> <span class="example-title">Transform matrix using used-defined functors</span>
-<pre class="prettyprint">
-// We want CRS matrix
-Matrix a = new CRSMatrix(new double[][] {
-   { 1.0, 0.0, 0.0 },
-   { 4.0, 5.0, 6.0 },
-   { 0.0, 0.0. 9.0 }
-});
-
-// We keep only diagonal elements of matrix 'a'
-Matrix b = a.transform(new MatrixFunction() {
-  @Override
-  public double evaluate(int i, int j, double value) {
-    return (i == j) ? value : 0.0;
-  }
-});
-</pre>
-<br />
-<span class="label label">&nbsp;</span> <span class="example-title">Multiply matrix by matrix</span>
-<pre class="prettyprint">
-// We want CCS matrix
-Matrix a = new CCSMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 0.0, 6.0 },
-   { 7.0, 0.0. 9.0 }
-});
-
-// We want 2D array matrix
-Matrix b = new Basic2DMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 5.0, 6.0 },
-   { 7.0, 8.0. 9.0 }
-});
-
-// Multiply 'a' by 'b'
-Matrix c = a.multiply(b);
-</pre>
-<br />
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Multiply matrix by vector</span>
-<pre class="prettyprint">
-// We want CRS matrix
-Matrix a = new CRSMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 0.0, 6.0 },
-   { 7.0, 0.0. 9.0 }
-});
-
-// We want sparse vector
-Vector b = new CompressedVector(new double[] { 1.0, 0.0, 3.0 });
-
-// Multiply 'a' by 'b'
-Vector c = a.multiply(b);
-</pre>
-<br />
-<span class="label label-inverse">&nbsp;</span> <span class="example-title">Multiply vector by matrix</span>
-<pre class="prettyprint">
-// We want dense vector
-Vector a = new BasicVector(new double[] { 1.0, 0.0, 3.0 });
-
-// We want CCS matrix
-Matrix b = new CCSMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 0.0, 6.0 },
-   { 7.0, 0.0. 9.0 }
-});
-
-// Multiply 'a' by 'b'
-Vector c = a.multiply(b);
-</pre>
-<br />
-<span class="label label-success">&nbsp;</span> <span class="example-title">Compute inner-product (dot-product) of two vectors</span>
-<pre class="prettyprint">
-// We want dense vectors
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
-
-double d = a.innerProduct(b); // 1.0*4.0 + 2.0*5.0 + 3.0*6.0 = 32
-</pre>
-<br />
-<span class="label label-info">&nbsp;</span> <span class="example-title">Compute Hadamard product (element-wise product) of two vectors</span>
-<pre class="prettyprint">
-// We want dense vectors
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
-
-Vector c = a.hadamardProduct(b); // Vector { 4.0, 10.0, 18.0 }
-</pre>
-<br />
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Compute Outer product of two vectors, which produces a matrix as result</span>
-<pre class="prettyprint">
-// We want dense vectors
-Vector a = new BasicVector(new double[]{ 1.0, 2.0, 3.0 });
-Vector b = new BasicVector(new double[]{ 4.0, 5.0, 6.0 });
-
-/* 
-Matrix {
-  4.0,  5.0,  6.0
-  8.0, 10.0, 12.0
- 12.0, 15.0, 18.0
-}
-*/
-Matrix c = a.outerProduct(b);
-</pre>
-<br />
-<span class="label label-important">&nbsp;</span> <span class="example-title">Matrix inversion</span>
-<pre class="prettyprint">
-// We want simple dense matrix that uses 2D array as internal representation
-Matrix a = new Basic2DMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 5.0, 6.0 },
-   { 7.0, 8.0. 9.0 }
-});
-
-// We will use Gauss-Jordan method for inverting
-MatrixInverter inverter = a.withInverter(LinearAlgebra.GAUSS_JORDAN);
-// The 'b' matrix will be dense
-Matrix b = inverter.invert(LinearAlgebra.DENSE_FACTORY);
-</pre>
-<br />
-<span class="label label-info">&nbsp;</span> <span class="example-title">System of linear equations (m = n)</span>
-<pre class="prettyprint">
-// The coefficient matrix 'a' is a CRS (Compressed Row Storage) matrix 
-Matrix a = new CRSMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 5.0, 6.0 },
-   { 7.0, 8.0. 9.0 }
-});
-
-// A right hand side vector, which is simple dense vector
-Vector b = new BasicVector(new double[] {
-   1.0, 2.0, 3.0
-});
-
-// We will use standard Forward-Back Substitution method,
-// which is based on LU decomposition and can be used with square systems
-LinearSystemSolver solver = a.withSolver(LinearAlgebra.FORWARD_BACK_SUBSTITUTION);
-// The 'x' vector will be sparse
-Vector x = solver.solve(b, LinearAlgebra.SPARSE_FACTORY);
-</pre>
-<br />
-<span class="label">&nbsp;</span> <span class="example-title">System of linear equations (m > n)</span>
-<pre class="prettyprint">
-// The coefficient matrix 'a' is dense 1D matrix 
-Matrix a = new Basic1DMatrix(new double[][] {
-   {  1.0,  2.0,  3.0 },
-   {  4.0,  5.0,  6.0 },
-   {  7.0,  8.0.  9.0 },
-   { 10.0, 11.0. 12.0 },
-   { 13.0, 14.0. 15.0 }
-});
-
-// A right hand side vector, which is simple dense vector
-Vector b = new BasicVector(new double[] {
-   1.0, 2.0, 3.0, 4.0, 5.0
-});
-
-// We will use Least Squares method,
-// which is based on QR decomposition and can be used with overdetermined systems
-LinearSystemSolver solver = a.withSolver(LinearAlgebra.LEAST_SQUARES);
-// The 'x' vector will be sparse
-Vector x = solver.solve(b, LinearAlgebra.DENSE_FACTORY);
-</pre>
-<br />
-<span class="label label-warning">&nbsp;</span> <span class="example-title">Matrix decomposition (i.e. LU)</span>
-<pre class="prettyprint">
-// We want simple dense matrix, which is based on 1D double's array 
-Matrix a = new Basic1DMatrix(new double[][] {
-   { 1.0, 2.0, 3.0 },
-   { 4.0, 5.0, 6.0 },
-   { 7.0, 8.0. 9.0 }
-});
-
-// We will use LU decompositor
-MatrixDecompositor decompositor = a.withDecompositor(LinearAlgebra.LU);
-// The result should be treated as: L = lup[0], U = lup[1], P = lup[2]
-Matrix[] lup = decompositor.decompose(LinearAlgebra.DENSE_FACTORY);
-</pre>
-      <hr />
-      <h2> Contributions </h2>
+      <h1> Documentation </h1>
       <p>
-        The <a href="https://github.com/vkostyukov/la4j">la4j project</a> is maintained at <a href="https://github.com">GitHub</a>, where you can:
-        <ul>
-          <li> <strong>Fork and send pull-request</strong></li>
-          <li> <strong>Browse the source code</strong> using the <a href="https://github.com/vkostyukov/la4j/tree/master/src">Source Browser</a></li> 
-          <li> <strong>Submit a bug/feature</strong> using the <a href="https://github.com/vkostyukov/la4j/issues">Issues List</a></li>
-          <li> <strong>Discuss usage/features/bugs</strong> using the <a href="https://groups.google.com/forum/?fromgroups=#!forum/la4j">Google Group</a> or the maillist <a href="mailto: la4j@googlegroups.com">la4j@googlegroups.com</a></li>  
-        </ul>
+        There are two main knowledge sources on la4j: <a href="http://la4j.org/apidocs">JavaDoc</a> and <a href="https://github.com/vkostyukov/la4j/wiki">Github Wiki</a>.
+
       </p>
-      <p>
-        The last but not least way to contribute - drop a feedback to the author <a href="https://twitter.com/vkostyukov">@vkostyukov</a>.
-      </p>
+
       <br />
-      <h2> References </h2>
+      <h1> References </h1>
       <ul>
         <li> <a href="https://github.com/vkostyukov/la4j">https://github.com/vkostyukov/la4j</a> - GitHub page </li>
         <li> <a href="http://la4j.blogspot.com">http://la4j.blogspot.com</a> - Development Blog </li>
         <li> <a href="https://groups.google.com/forum/?fromgroups=#!forum/la4j">https://groups.google.com/forum/?fromgroups=#!forum/la4j</a> - Google Group</li>
         <li> <a href="apidocs/">http://la4j.org/apidocs</a> - la4j's JavaDocs</li>
+        <li> <a href="https://github.com/vkostyukov/la4j/wiki">https://github.com/vkostyukov/la4j/wiki</a> - la4j's Wiki</li>
       </ul>
       <hr />
       <footer>
         <div class="row">
           <div class="span5">
             <ul class="unstyled">
-              <li>&copy; <a href="http://vkostyukov.ru">Vladimir Kostyukov</a>, 2011-2013</li>
+              <li>&copy; <a href="http://twitter.com/vkostyukov">Vladimir Kostyukov</a>, 2011-2015</li>
               <li>Powered by <a href="http://twitter.github.com/bootstrap/">Twitter's Bootstrap</a></li>
             </ul>
           </div>
           <div class="span5" style="text-align:right;">
             <ul class="unstyled">
               <li>Created <code>26-Jul-2012</code></li>
-              <li>Updated <code>25-Jan-2014</code></li>
+              <li>Updated <code>7-Jan-2015</code></li>
             </ul>
           </div>
         </div>
