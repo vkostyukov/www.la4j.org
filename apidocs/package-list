@@ -1,8 +1,6 @@
 org.la4j
 org.la4j.decomposition
-org.la4j.factory
 org.la4j.inversion
-org.la4j.io
 org.la4j.iterator
 org.la4j.linear
 org.la4j.matrix
